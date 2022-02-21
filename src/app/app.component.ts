@@ -2,14 +2,8 @@ import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
 // import {FormControl, Validators} from '@angular/forms';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppService } from './app.service';
-interface Language {
-  value: string;
-  viewValue: string;
-}
-interface Plan {
-  value: string;
-  viewValue: string;
-}
+import { Plan } from './models/plans.model';
+import { Language } from './models/languages.model';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,19 +16,27 @@ export class AppComponent implements OnInit {
   trialForm: FormGroup;
   responseSuccess: Boolean = false;
   emailRegx = /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
-  langList: Language[] = [
-    {value: 'ENGLISH', viewValue: 'English'},
-    {value: 'HINDI', viewValue: 'Hindi'},
-    {value: 'SPANISH', viewValue: 'Spanish'},
-  ];
-  plansList: Plan[] =[
-    {value: 'PL-1', viewValue: 'Basic'},
-    {value: 'PL-2', viewValue: 'Intermediate'},
-    {value: 'PL-3', viewValue: 'Advanced'},
-  ]
+  langList: Language[] = [];
+  plansList: Plan[] = [];
   constructor(private appService: AppService) { }
 
   ngOnInit() {
+    this.appService.getLanguages().subscribe(success=>{
+      success.response.map((item)=>{
+        console.log(item);
+        this.langList.push({value: item.value, viewValue: item.viewValue })
+      })
+    },failure=>{
+      this.langList = [];
+    });
+    this.appService.getPlans().subscribe(success=>{
+      success.response.map((item)=>{
+        console.log(item);
+        this.plansList.push({value: item.value, viewValue: item.viewValue })
+      })
+    },failure=>{
+      this.plansList = [];
+    })
     this.trialForm = new FormGroup({
       name: new FormControl('', Validators.required),
       email:  new FormControl('', [Validators.required,Validators.email]),
@@ -71,7 +73,7 @@ export class AppComponent implements OnInit {
     return formData;
   }
   
-  async submit() {
+submit() {
     if (!this.trialForm.valid) {
       return;
     }
