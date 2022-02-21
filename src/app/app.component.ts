@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.trialForm = new FormGroup({
       name: new FormControl('', Validators.required),
-      email:  new FormControl('', Validators.required),
+      email:  new FormControl('', [Validators.required,Validators.email]),
       lang: new FormControl('',Validators.required),
       plans:  new FormControl('',Validators.required),
       fileSource: new FormControl('', [Validators.required])
