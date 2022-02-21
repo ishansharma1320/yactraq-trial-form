@@ -2,12 +2,15 @@
   <h2> Yactraq Transcripts Trial </h2>
   
   <div class="form-container">
-    <div *ngIf="success === true">
+    <div *ngIf="formSubmitted === true && responseSuccess === true">
       <h3 style="margin-bottom: 10px;"> Form Submitted Successfully. Please Check your email</h3>
     <button type="button" mat-raised-button color="primary" style="width : 10em;"  (click)="goBackToForm()"> Go Back </button>
     </div>
-    
-    <form *ngIf="success === false" [formGroup]="trialForm" (submit)="submit()">
+    <div *ngIf="formSubmitted === true && responseSuccess === false">
+      <h3 style="margin-bottom: 10px;"> Service Unavailable: Form Submission Failed, Try again after some time </h3>
+      <button type="button" mat-raised-button color="primary" style="width : 10em;"  (click)="goBackToForm()"> Go Back </button>
+    </div>
+    <form *ngIf="formSubmitted === false" [formGroup]="trialForm" (submit)="submit()">
       <mat-form-field class="form-field" appearance="outline">
         <mat-label> Name
         </mat-label>

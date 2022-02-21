@@ -1,6 +1,7 @@
 import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
 // import {FormControl, Validators} from '@angular/forms';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AppService } from './app.service';
 interface Language {
   value: string;
   viewValue: string;
@@ -12,12 +13,14 @@ interface Plan {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [AppService]
 })
 export class AppComponent implements OnInit {
   @ViewChild('fileInput') fileInputVariable: ElementRef;
-  success: Boolean = false;
+  formSubmitted: Boolean = false;
   trialForm: FormGroup;
+  responseSuccess: Boolean = false;
   emailRegx = /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
   langList: Language[] = [
     {value: 'ENGLISH', viewValue: 'English'},
@@ -29,7 +32,7 @@ export class AppComponent implements OnInit {
     {value: 'PL-2', viewValue: 'Intermediate'},
     {value: 'PL-3', viewValue: 'Advanced'},
   ]
-  constructor() { }
+  constructor(private appService: AppService) { }
 
   ngOnInit() {
     this.trialForm = new FormGroup({
@@ -43,7 +46,7 @@ export class AppComponent implements OnInit {
     
   }
   goBackToForm(){
-    this.success = false;
+    this.formSubmitted = false;
   }
   onFileChange(event) {
   
@@ -68,7 +71,7 @@ export class AppComponent implements OnInit {
     return formData;
   }
   
-  submit() {
+  async submit() {
     if (!this.trialForm.valid) {
       return;
     }
@@ -78,8 +81,13 @@ export class AppComponent implements OnInit {
     formData.forEach((val,key)=>{
       console.log(key,val);
     })
-    // API CALL ENDS
-    this.success = true;
+    this.appService.postFormData(formData).subscribe((success)=>{
+      this.responseSuccess = true;
+    },(failure)=>{
+      this.responseSuccess = false;
+    });
+    this.formSubmitted = true;
+    
     this.reset();
   }
   
