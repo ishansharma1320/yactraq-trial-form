@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const config = require('./config/development');
 const Languages = require('./models/Languages');
 const Plans = require('./models/Plans');
+const Form = require('./models/Form');
 const filePath = path.join(__dirname, '..','dist','yactraq-transcripts-trial');
 const app = express();
 const finalConfig = config.development;
@@ -50,20 +51,78 @@ const upload = multerConfig.single('fileSource');
 app.post('/postForm', function (req, res) {
   upload(req,res,function(err){
     if (err){
+      console.log("HERE 1");
       res.status(503).json({
         message: "Service Unavailable: File not Uploaded",
       })
     }
     // Save to model
-    console.log("In Successful");
-    res.status(200).json({
-      message: "File Upload Successful",
-    })
+    Form.find({email: req.body.email}).sort({'_id':-1}).then(documents=>{
+        if (documents.length === 1){
+          if(documents[0].flag === true){
+            res.send(200).json({message: "Email ID Flagged"})
+          }else if(documents[0].count >= 3){
+            res.send(200).json({message: "Free Limit Exceeded"})
+          }else{
+            Form.updateOne({email: req.body.email},{fileName: req.file.filename,language: req.body.lang,plans: req.body.plans.split(','),$inc: {count: 1}})
+            .then(documents=>{
+              res.status(200).json({
+                message: "File Upload Successful",
+              })
+            })
+            .catch(err=>{
+              console.log("HERE 2");
+              res.status(503).json({
+                message: "Service Unavailable: File not Uploaded",
+              })
+            })
+          }
+        
+        }
+      //   else if (documents.length > 1){
+      //     const latestDoc = documents[0];
+      //     const count = documents.length+1;
+      //     const remDocs = []
+      //     documents.splice(0,1).map((itm)=>{
+      //       remDocs.push(itm._id)
+      //     })
+      //     Form.deleteMany({_id: {$in: remDocs}}).then(()=>{
+      //       console.log("Deleted");
+      //     }).catch(()=>{
+      //       console.log("error");
+      //     })
+      //     Form.updateOne({_id: latestDoc._id},{fileName: req.file.filename,language: req.body.lang,plans: req.body.plans.split(','),count: count})
+      //   .then(documents=>{
+      //     res.status(200).json({
+      //       message: "File Upload Successful",
+      //     })
+      //   })
+      //   .catch(err=>{
+      //     console.log("HERE 2");
+      //     res.status(503).json({
+      //       message: "Service Unavailable: File not Uploaded",
+      //     })
+      //   })
+      // }
+        else{
+    Form.create({name: req.body.name,email: req.body.email,language: req.body.lang,fileName: req.file.filename,plans: req.body.plans.split(',')})
+      .then(document=>{
+        res.status(200).json({
+          message: "File Upload Successful",
+        })
+      }).catch(err=>{
+        console.log("HERE 3");
+        res.status(503).json({
+          message: "Service Unavailable: File not Uploaded",
+        })
+      })
+        }
+        })
   }
 );
 });
 
-app.post('/setLanguages',function(req,res){
+app.post('/setLanguage',function(req,res){
   const obj = [];
   // console.log(req.body);
   if(req.body.array){
@@ -81,7 +140,7 @@ app.post('/setLanguages',function(req,res){
       });
   
 });
-app.post('/setPlans',function(req,res){
+app.post('/setPlan',function(req,res){
   const obj = [];
   if(req.body.array){
     req.body.array.map((item)=>{
@@ -99,19 +158,36 @@ app.post('/setPlans',function(req,res){
 
 
 });
-app.get('/getLanguages', function(req,res){
+app.get('/getLanguage', function(req,res){
  Languages.find({}).then(documents=>{
    res.status(200).json({response:documents,count: documents.length});
  }).catch(err=>{
   res.status(400).json({error: "Cannot Fetch Languages from Database"});
  })
 });
-app.get('/getPlans', function(req,res){
+app.get('/getPlan', function(req,res){
   Plans.find({}).then(documents=>{
     res.status(200).json({response:documents,count: documents.length});
   }).catch(err=>{
    res.status(400).json({error: "Cannot Fetch Languages from Database"});
   })
+});
+
+app.delete('/deleteLanguage',function(req,res){
+  Languages.deleteMany({viewValue: {$in: req.body.array}}).then(document=>{
+    res.status(201).json({message: "Deletion Successful", deletedCount: document.deletedCount})
+  }).catch(err=>{
+    res.status(400).json({error: "Cannot Delete values from Database"});
+  })
+
+});
+app.delete('/deletePlans',function(req,res){
+  Plans.deleteMany({viewValue: {$in: req.body.array}}).then(document=>{
+    res.status(201).json({message: "Deletion Successful", deletedCount: document.deletedCount})
+  }).catch(err=>{
+    res.status(400).json({error: "Cannot Delete values from Database"});
+  })
+
 });
 app.listen(PORT, function () {
     console.log('server started at port : '+PORT);

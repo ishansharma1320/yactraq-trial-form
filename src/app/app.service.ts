@@ -6,10 +6,10 @@ export class AppService{
     private SERVER_URL = 'http://13.127.219.224:3003/';
     
     getPlans(){
-        return this.httpClient.get<{response: [{'_id': String, "value": String, "viewValue": String}]}>(this.SERVER_URL+'getPlans');
+        return this.httpClient.get<{response: [{'_id': String, "value": String, "viewValue": String}]}>(this.SERVER_URL+'getPlan');
     }
     getLanguages(){
-        return this.httpClient.get<{response: [{'_id': String, "value": String, "viewValue": String}]}>(this.SERVER_URL+'getLanguages');
+        return this.httpClient.get<{response: [{'_id': String, "value": String, "viewValue": String}]}>(this.SERVER_URL+'getLanguage');
     }
     postFormData(data: FormData){
         //API CALL
