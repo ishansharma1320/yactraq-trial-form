@@ -14,7 +14,8 @@ export class AppComponent implements OnInit {
   @ViewChild('fileInput') fileInputVariable: ElementRef;
   formSubmitted: Boolean = false;
   trialForm: FormGroup;
-  responseSuccess: Boolean = false;
+  notAuthorised: Boolean;
+  message: String;
   emailRegx = /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
   langList: Language[] = [];
   plansList: Plan[] = [];
@@ -23,7 +24,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.appService.getLanguages().subscribe(success=>{
       success.response.map((item)=>{
-        console.log(item);
+        // console.log(item);
         this.langList.push({value: item.value, viewValue: item.viewValue })
       })
     },failure=>{
@@ -31,7 +32,7 @@ export class AppComponent implements OnInit {
     });
     this.appService.getPlans().subscribe(success=>{
       success.response.map((item)=>{
-        console.log(item);
+        // console.log(item);
         this.plansList.push({value: item.value, viewValue: item.viewValue })
       })
     },failure=>{
@@ -49,13 +50,14 @@ export class AppComponent implements OnInit {
   }
   goBackToForm(){
     this.formSubmitted = false;
+    this.notAuthorised = undefined;
   }
   onFileChange(event) {
   
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.trialForm.get('fileSource').setValue(file);
-      console.log(this.trialForm.get('fileSource').value);
+      // console.log(this.trialForm.get('fileSource').value);
     }
   }
   private reset(){
@@ -84,11 +86,16 @@ submit() {
       console.log(key,val);
     })
     this.appService.postFormData(formData).subscribe((success)=>{
-      this.responseSuccess = true;
+      this.formSubmitted = true;
+      
     },(failure)=>{
-      this.responseSuccess = false;
+      this.formSubmitted = false;
+      if(failure.status === 403){
+        this.notAuthorised = true;
+        this.message = failure.error.message;
+      }
     });
-    this.formSubmitted = true;
+    
     
     this.reset();
   }

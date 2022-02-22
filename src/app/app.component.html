@@ -2,15 +2,18 @@
   <h2> Yactraq Transcripts Trial </h2>
   
   <div class="form-container">
-    <div *ngIf="formSubmitted === true && responseSuccess === true">
+    <div *ngIf="formSubmitted === true">
       <h3 style="margin-bottom: 10px;"> Form Submitted Successfully. Please Check your email</h3>
     <button type="button" mat-raised-button color="primary" style="width : 10em;"  (click)="goBackToForm()"> Go Back </button>
     </div>
-    <div *ngIf="formSubmitted === true && responseSuccess === false">
-      <h3 style="margin-bottom: 10px;"> Service Unavailable: Form Submission Failed, Try again after some time </h3>
+   
+    <div *ngIf="formSubmitted === false && notAuthorised !== undefined">
+      <h3 *ngIf="notAuthorised === true"style="margin-bottom: 10px;"> Not Authorised: {{message}} </h3>
+      <h3 *ngIf="notAuthorised === false"style="margin-bottom: 10px;"> Service Unavailable: Form Submission Failed, Try again after some time </h3>
       <button type="button" mat-raised-button color="primary" style="width : 10em;"  (click)="goBackToForm()"> Go Back </button>
     </div>
-    <form *ngIf="formSubmitted === false" [formGroup]="trialForm" (submit)="submit()">
+    
+    <form *ngIf="formSubmitted === false && notAuthorised === undefined" [formGroup]="trialForm" (submit)="submit()">
       <mat-form-field class="form-field" appearance="outline">
         <mat-label> Name
         </mat-label>
