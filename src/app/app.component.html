@@ -32,6 +32,26 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field class="form-field" appearance="outline">
+        <mat-label> Organisation
+        </mat-label>
+        <input matInput formControlName="org" required>
+        <mat-error *ngIf="trialForm.controls['org'].touched && trialForm.controls['org'].invalid">
+          <span *ngIf="trialForm.controls['org'].errors !== null && trialForm.controls['org'].errors['required']">This field is mandatory.</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="outline">
+        <mat-label>Assignee</mat-label>
+        <input type="text" matInput formControlName="country" [matAutocomplete]="auto" required>
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option.countryName}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="trialForm.controls['country'].touched && trialForm.controls['country'].invalid">
+          <span *ngIf="trialForm.controls['country'].errors !== null && trialForm.controls['country'].errors['required']">This field is mandatory.</span>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="form-field" appearance="outline">
         <mat-label> Select Language </mat-label>
         <mat-select formControlName="lang" required>
           <mat-option *ngFor="let lang of langList" [value]="lang.value">

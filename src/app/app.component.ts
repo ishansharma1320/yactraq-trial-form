@@ -1,9 +1,16 @@
 import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
 // import {FormControl, Validators} from '@angular/forms';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 import { AppService } from './app.service';
 import { Plan } from './models/plans.model';
 import { Language } from './models/languages.model';
+export interface Country {
+  countryCode: string;
+  countryName: string;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,12 +20,23 @@ import { Language } from './models/languages.model';
 export class AppComponent implements OnInit {
   @ViewChild('fileInput') fileInputVariable: ElementRef;
   formSubmitted: Boolean = false;
-  trialForm: FormGroup;
   notAuthorised: Boolean;
   message: String;
   emailRegx = /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
   langList: Language[] = [];
   plansList: Plan[] = [];
+  options: Country[] = [{countryName: 'India', countryCode: '+91'}, {countryName: 'Australia', countryCode: '+61'}, {countryName: 'USA', countryCode: '+1'}];
+  filteredOptions: Observable<Country[]>;
+  trialForm:FormGroup = new FormGroup({
+    name: new FormControl('', Validators.required),
+    country: new FormControl('', Validators.required),
+    email:  new FormControl('', [Validators.required,Validators.email]),
+    org: new FormControl('', Validators.required),
+    lang: new FormControl('',Validators.required),
+    plans:  new FormControl('',Validators.required),
+    fileSource: new FormControl('', [Validators.required])
+    
+  })
   constructor(private appService: AppService) { }
 
   ngOnInit() {
@@ -38,21 +56,23 @@ export class AppComponent implements OnInit {
     },failure=>{
       this.plansList = [];
     })
-    this.trialForm = new FormGroup({
-      name: new FormControl('', Validators.required),
-      email:  new FormControl('', [Validators.required,Validators.email]),
-      lang: new FormControl('',Validators.required),
-      plans:  new FormControl('',Validators.required),
-      fileSource: new FormControl('', [Validators.required])
-      
-    })
+    this.filteredOptions = this.trialForm.controls['country'].valueChanges.pipe(
+      startWith(''),
+
+      map(name => (name ? this._filter(name) : this.options.slice())),
+    );
     
   }
-  goBackToForm(){
+  displayFn(country: Country): string {
+    return country && country.countryName ? country.countryName : '';
+  }
+
+  
+  goBackToForm(): void {
     this.formSubmitted = false;
     this.notAuthorised = undefined;
   }
-  onFileChange(event) {
+  onFileChange(event): void {
   
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -60,44 +80,56 @@ export class AppComponent implements OnInit {
       // console.log(this.trialForm.get('fileSource').value);
     }
   }
-  private reset(){
+  private _filter(name: Country): Country[] {
+    const filterValue = name.countryName.toLowerCase();
+
+    return this.options.filter(option => option.countryName.toLowerCase().includes(filterValue));
+  }
+
+  private _reset(): void {
     this.trialForm.reset();
     Object.keys(this.trialForm.controls).forEach(key => {
       this.trialForm.get(key).setErrors(null) ;
     });
     this.fileInputVariable.nativeElement.value="";
   }
-  private createFormData(){
+  private _createFormData(): FormData{
     const formData = new FormData();
     Object.keys( this.trialForm.controls).forEach(key => {
-      formData.append(key, this.trialForm.get(key).value);
+      if (key === 'country'){
+        formData.append(key, this.trialForm.get(key).value.countryName);
+      }
+      else{
+        formData.append(key, this.trialForm.get(key).value);
+      }
+      
    });
     return formData;
   }
   
-submit() {
+submit(): void {
     if (!this.trialForm.valid) {
       return;
     }
     
-    const formData = this.createFormData();
+    const formData = this._createFormData();
     //API CALL STARTS
     formData.forEach((val,key)=>{
       console.log(key,val);
     })
-    this.appService.postFormData(formData).subscribe((success)=>{
-      this.formSubmitted = true;
+    // this.appService.postFormData(formData).subscribe((success)=>{
+    //   this.formSubmitted = true;
       
-    },(failure)=>{
-      this.formSubmitted = false;
-      if(failure.status === 403){
-        this.notAuthorised = true;
-        this.message = failure.error.message;
-      }
-    });
+    // },(failure)=>{
+    //   this.formSubmitted = false;
+    //   if(failure.status === 403){
+    //     this.notAuthorised = true;
+    //     this.message = failure.error.message;
+    //   }
+    // });
     
     
-    this.reset();
+    this._reset();
   }
   
   title = 'yactraq-transcripts-trial';
