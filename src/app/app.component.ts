@@ -22,24 +22,27 @@ export class AppComponent implements OnInit {
   formSubmitted: Boolean = false;
   notAuthorised: Boolean;
   message: String;
-  emailRegx = /^(([^<>+()\[\]\\.,;:\s@"-#$%&=]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$/;
   langList: Language[] = [];
   plansList: Plan[] = [];
   options: Country[] = [{countryName: 'India', countryCode: '+91'}, {countryName: 'Australia', countryCode: '+61'}, {countryName: 'USA', countryCode: '+1'}];
-  filteredOptions: Observable<Country[]>;
-  trialForm:FormGroup = new FormGroup({
+  filteredCNameOptions: Observable<Country[]>;
+  filteredCcodeOptions: Observable<Country[]>;
+  trialForm = new FormGroup({
     name: new FormControl('', Validators.required),
     country: new FormControl('', Validators.required),
+    ccode: new FormControl('', Validators.required),
+    phone: new FormControl('', Validators.required),
     email:  new FormControl('', [Validators.required,Validators.email]),
     org: new FormControl('', Validators.required),
     lang: new FormControl('',Validators.required),
     plans:  new FormControl('',Validators.required),
     fileSource: new FormControl('', [Validators.required])
     
-  })
+  });
   constructor(private appService: AppService) { }
 
   ngOnInit() {
+    
     this.appService.getLanguages().subscribe(success=>{
       success.response.map((item)=>{
         // console.log(item);
@@ -56,14 +59,22 @@ export class AppComponent implements OnInit {
     },failure=>{
       this.plansList = [];
     })
-    this.filteredOptions = this.trialForm.controls['country'].valueChanges.pipe(
+    this.filteredCNameOptions = this.trialForm.controls['country'].valueChanges.pipe(
       startWith(''),
-
-      map(name => (name ? this._filter(name) : this.options.slice())),
+      map(value => (typeof value === 'string' ? value : value === undefined || value === null? '':value.countryName)),
+      map(name => (name ? this._filter(name,'country') : this.options.slice())),
+    );
+    this.filteredCcodeOptions = this.trialForm.controls['ccode'].valueChanges.pipe(
+      startWith(''),
+      map(value => (typeof value === 'string' ? value : value === undefined || value === null? '':value.countryCode)),
+      map(name => (name ? this._filter(name,'') : this.options.slice())),
     );
     
   }
-  displayFn(country: Country): string {
+  cNameDisplayFn(country: Country): string {
+    return country && country.countryName ? country.countryName : '';
+  }
+  cCodeDisplayFn(country: Country): string {
     return country && country.countryName ? country.countryName : '';
   }
 
@@ -80,10 +91,20 @@ export class AppComponent implements OnInit {
       // console.log(this.trialForm.get('fileSource').value);
     }
   }
-  private _filter(name: Country): Country[] {
-    const filterValue = name.countryName.toLowerCase();
-
-    return this.options.filter(option => option.countryName.toLowerCase().includes(filterValue));
+  private _filter(name: string,control: string): Country[] {
+    console.log(name);
+    const filterValue = name.toLowerCase();
+    let res;
+    switch(control){
+      case 'country':{
+        res = this.options.filter(option => option.countryName.toLowerCase().includes(filterValue));
+        break;
+      }
+      default:{
+        res = this.options.filter(option => option.countryCode.toLowerCase().includes(filterValue));
+      }
+      }
+    return res;
   }
 
   private _reset(): void {
@@ -96,13 +117,7 @@ export class AppComponent implements OnInit {
   private _createFormData(): FormData{
     const formData = new FormData();
     Object.keys( this.trialForm.controls).forEach(key => {
-      if (key === 'country'){
-        formData.append(key, this.trialForm.get(key).value.countryName);
-      }
-      else{
         formData.append(key, this.trialForm.get(key).value);
-      }
-      
    });
     return formData;
   }

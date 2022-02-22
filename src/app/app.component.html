@@ -40,10 +40,10 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field class="form-field" appearance="outline">
-        <mat-label>Assignee</mat-label>
-        <input type="text" matInput formControlName="country" [matAutocomplete]="auto" required>
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        <mat-label>Country</mat-label>
+        <input type="text" matInput formControlName="country" [matAutocomplete]="country" required>
+        <mat-autocomplete #country="matAutocomplete" [displayWith]="cNameDisplayFn">
+          <mat-option *ngFor="let option of filteredCNameOptions | async" [value]="option">
             {{option.countryName}}
           </mat-option>
         </mat-autocomplete>
@@ -51,6 +51,34 @@
           <span *ngIf="trialForm.controls['country'].errors !== null && trialForm.controls['country'].errors['required']">This field is mandatory.</span>
         </mat-error>
       </mat-form-field>
+      <mat-grid-list cols="4" gutterSize="15px" rowHeight="1:1">
+        <mat-grid-tile colspan="1">
+          <mat-form-field style="width:100%; height: auto;" appearance="outline">
+        <mat-label style="font-size: x-small;">Country Code</mat-label>
+        <input type="text" matInput formControlName="ccode" [matAutocomplete]="auto" required>
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="cCodeDisplayFn">
+          <mat-option *ngFor="let option of filteredCcodeOptions | async" [value]="option">
+            {{option.countryCode}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="trialForm.controls['ccode'].touched && trialForm.controls['ccode'].invalid">
+          <span style="font-size:x-small; white-space: nowrap;" *ngIf="trialForm.controls['ccode'].errors !== null && trialForm.controls['ccode'].errors['required']">Required.</span>
+        </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="3">
+          <mat-form-field style="width:100%;"appearance="outline">
+            <mat-label> Phone Number
+            </mat-label>
+            <input matInput type="number" formControlName="phone" required>
+            <mat-error *ngIf="trialForm.controls['phone'].touched && trialForm.controls['phone'].invalid">
+              <span *ngIf="trialForm.controls['phone'].errors !== null && trialForm.controls['phone'].errors['required']">This field is mandatory.</span>
+            </mat-error>
+          </mat-form-field>
+        </mat-grid-tile>
+        
+      </mat-grid-list>
+
       <mat-form-field class="form-field" appearance="outline">
         <mat-label> Select Language </mat-label>
         <mat-select formControlName="lang" required>
