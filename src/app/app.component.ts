@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
   filteredOptions: Observable<Country[]>;
   trialForm:FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
+    ccode: new FormControl('', Validators.required),
     country: new FormControl('', Validators.required),
     email:  new FormControl('', [Validators.required,Validators.email]),
     org: new FormControl('', Validators.required),
@@ -63,7 +64,7 @@ export class AppComponent implements OnInit {
     );
     
   }
-  displayFn(country: Country): string {
+  countryNameDisplayFn(country: Country): string {
     return country && country.countryName ? country.countryName : '';
   }
 
