@@ -3,6 +3,9 @@ const path = require('path')
 const multer  = require('multer');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
+
+
 const config = require('./config/development');
 const Languages = require('./models/Languages');
 const Plans = require('./models/Plans');
@@ -18,6 +21,7 @@ mongoose.connect('mongodb://'+ finalConfig.username + ':' + finalConfig.password
   console.error("Could not Connect to Database");
 });
 
+// ----------- Multer Config Starts -----------
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads");
@@ -28,7 +32,7 @@ const multerStorage = multer.diskStorage({
   },
 });
 
-// multerFilter not needed as we are already filtering the audio files in the frontend
+
 const multerFilter = (req, file, cb) => {
   Form.find({email: req.body.email}).sort({'_id':-1}).then(documents=>{
     let count = 0;
@@ -82,17 +86,68 @@ const multerFilter = (req, file, cb) => {
   })
   
 };
-
 const multerConfig = multer({
   storage: multerStorage,
   fileFilter: multerFilter,
 });
+const upload = multerConfig.single('fileSource');
+
+// ----------- Multer Config Ends -----------
+
 app.use(bodyParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(filePath));
 PORT=3003
-const upload = multerConfig.single('fileSource');
+
+
+
+
+// --------- misc Starts -----------
+const transporter = nodemailer.createTransport({
+  port: 465,              
+  host: "smtp.gmail.com",
+     auth: {
+          user: 'ishansharma1320@gmail.com',
+          pass: 'qzqiuuifxehjoefd',
+       },
+  secure: true,
+  });
+
+const sendMailFunction = (mailData)=>{
+  transporter.sendMail(mailData,(error,info)=>{
+    if(error){
+      console.log(error);
+      return;
+    }
+    console.log("Done");
+  })
+}
+
+app.post('/placeholder',(req,res)=>{
+  let mailData = {from: "ishansharma1320@gmail.com",to: req.body.email ,subject: req.body.subject,text: req.body.text ,html: "<p> Testing Email </p>"};
+  sendMailFunction(mailData);
+  res.status(501).json({
+    message: "PlaceHolder"
+  });
+})
+// --------- misc Ends -----------
+// ----------- external API Starts -------------
+app.get('/getLanguage', function(req,res){
+  Languages.find({}).then(documents=>{
+    res.status(200).json({response:documents,count: documents.length});
+  }).catch(err=>{
+   res.status(500).json({error: "Cannot Fetch Languages from Database"});
+  })
+ });
+ app.get('/getPlan', function(req,res){
+   Plans.find({}).then(documents=>{
+     res.status(200).json({response:documents,count: documents.length});
+   }).catch(err=>{
+    res.status(500).json({error: "Cannot Fetch Languages from Database"});
+   })
+ });
+ 
 
 app.post('/postForm', function (req, res) {
   upload(req,res,function(err){
@@ -142,7 +197,8 @@ app.post('/postForm', function (req, res) {
   }
 );
 });
-
+// ----------- external API Ends -------------
+// ----------- internal API Starts -------------
 app.post('/setLanguage',function(req,res){
   const obj = [];
   // console.log(req.body);
@@ -161,6 +217,7 @@ app.post('/setLanguage',function(req,res){
       });
   
 });
+
 app.post('/setPlan',function(req,res){
   const obj = [];
   if(req.body.array){
@@ -179,21 +236,6 @@ app.post('/setPlan',function(req,res){
 
 
 });
-app.get('/getLanguage', function(req,res){
- Languages.find({}).then(documents=>{
-   res.status(200).json({response:documents,count: documents.length});
- }).catch(err=>{
-  res.status(500).json({error: "Cannot Fetch Languages from Database"});
- })
-});
-app.get('/getPlan', function(req,res){
-  Plans.find({}).then(documents=>{
-    res.status(200).json({response:documents,count: documents.length});
-  }).catch(err=>{
-   res.status(500).json({error: "Cannot Fetch Languages from Database"});
-  })
-});
-
 app.delete('/deleteLanguage',function(req,res){
   Languages.deleteMany({viewValue: {$in: req.body.array}}).then(document=>{
     res.status(201).json({message: "Deletion Successful", deletedCount: document.deletedCount})
@@ -210,6 +252,9 @@ app.delete('/deletePlans',function(req,res){
   })
 
 });
+// ----------- internal API Ends -------------
+
+
 app.listen(PORT, function () {
     console.log('server started at port : '+PORT);
 });
