@@ -7,7 +7,7 @@ var schema = new mongoose.Schema({
     fileName: {type: String,required: true},
     plans: {type: [String],required: true},
     flag: {type: Boolean,default: false},
-    count: {type: Number,default: 0}
+    count: {type: Number,default: 1}
 
 });
 

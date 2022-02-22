@@ -29,17 +29,63 @@ const multerStorage = multer.diskStorage({
 });
 
 // multerFilter not needed as we are already filtering the audio files in the frontend
-// const multerFilter = (req, file, cb) => {
-//   if (file.mimetype.split("/")[0] === "audio") {
-//     cb(null, true);
-//   } else {
-//     cb(new Error("Not a Audio File!!"), false);
-//   }
-// };
+const multerFilter = (req, file, cb) => {
+  Form.find({email: req.body.email}).sort({'_id':-1}).then(documents=>{
+    let count = 0;
+    let flag = false;
+    if(documents.length > 1){
+      let sumCount = documents.reduce((total, obj) => obj.c + total,0)
+      let docCount = documents.length;
+      count = docCount>=sumCount?docCount:sumCount;
+      for(item of documents){
+        if (item.flag === true){
+          flag = true;
+          break;
+        }
+      }
+      let latestDoc = documents.shift();
+      let validKeys = ['_id'];
+      documents.map(item => Object.keys(item).forEach(key=>validKeys.includes(key) || delete item[key]));
+      Form.deleteMany({_id: {$in: remDocs}}).then(()=>{
+        console.log("Deleted");
+      }).catch(()=>{
+        console.log("SOMETHING WRONG 1");
+        return cb(new Error("Something Wrong"), false);
+      });
+      Form.updateOne({_id: latestDoc._id},{$set:{flag: flag,count: count}})
+        .then(documents=>{
+        
+        })
+        .catch(err=>{
+          console.log("SOMETHING WRONG 2");
+          return cb(new Error("Something Wrong"), false);
+        })
+      
+    } else if (documents.length === 1){
+      count = documents[0].count;
+      flag = documents[0].flag;
+    }
+
+    if (count>=3){
+      console.log("COUNT EXCEEDED");
+      return cb(new Error("Free Limit Exceeded!"), false);
+    }
+    if (flag === true){
+      console.log("FLAG TRUE");
+      return cb(new Error("Email ID Flagged!"), false);
+    }
+    console.log("FILE BEING UPLOADED")
+    return cb(null, true);
+  }).catch(err=>{
+    console.log("SOMETHING WRONG 3");
+    return cb(new Error("Something Wrong"), false);
+  })
+  
+};
 
 const multerConfig = multer({
   storage: multerStorage,
-  // fileFilter: multerFilter,
+  fileFilter: multerFilter,
 });
 app.use(bodyParser());
 app.use(bodyParser.json());
@@ -52,9 +98,9 @@ app.post('/postForm', function (req, res) {
   upload(req,res,function(err){
     if (err){
       console.log("HERE 1");
-      res.status(503).json({
-        message: "Service Unavailable: File not Uploaded",
-      })
+      console.log(err.message);
+      err.message === "Something Wrong"?res.status(500).json({message: "Service Unavailable"}):res.status(403).json({message: err.message});
+      return;
     }
     // Save to model
     Form.find({email: req.body.email}).sort({'_id':-1}).then(documents=>{
@@ -72,38 +118,13 @@ app.post('/postForm', function (req, res) {
             })
             .catch(err=>{
               console.log("HERE 2");
-              res.status(503).json({
+              res.status(500).json({
                 message: "Service Unavailable: File not Uploaded",
               })
             })
           }
         
         }
-      //   else if (documents.length > 1){
-      //     const latestDoc = documents[0];
-      //     const count = documents.length+1;
-      //     const remDocs = []
-      //     documents.splice(0,1).map((itm)=>{
-      //       remDocs.push(itm._id)
-      //     })
-      //     Form.deleteMany({_id: {$in: remDocs}}).then(()=>{
-      //       console.log("Deleted");
-      //     }).catch(()=>{
-      //       console.log("error");
-      //     })
-      //     Form.updateOne({_id: latestDoc._id},{fileName: req.file.filename,language: req.body.lang,plans: req.body.plans.split(','),count: count})
-      //   .then(documents=>{
-      //     res.status(200).json({
-      //       message: "File Upload Successful",
-      //     })
-      //   })
-      //   .catch(err=>{
-      //     console.log("HERE 2");
-      //     res.status(503).json({
-      //       message: "Service Unavailable: File not Uploaded",
-      //     })
-      //   })
-      // }
         else{
     Form.create({name: req.body.name,email: req.body.email,language: req.body.lang,fileName: req.file.filename,plans: req.body.plans.split(',')})
       .then(document=>{
@@ -112,7 +133,7 @@ app.post('/postForm', function (req, res) {
         })
       }).catch(err=>{
         console.log("HERE 3");
-        res.status(503).json({
+        res.status(500).json({
           message: "Service Unavailable: File not Uploaded",
         })
       })
@@ -136,7 +157,7 @@ app.post('/setLanguage',function(req,res){
   .then(itm =>{
       res.status(201).json({message: 'Data Added Successfully',status: true})
     }).catch(err => {
-        res.status(400).json({message: 'Unable to save to database',status: false})
+        res.status(500).json({message: 'Unable to save to database',status: false})
       });
   
 });
@@ -153,7 +174,7 @@ app.post('/setPlan',function(req,res){
   .then(itm =>{
       res.status(201).json({message: 'Data Added Successfully',status: true})
     }).catch(err => {
-        res.status(400).json({message: 'Unable to save to database',status: false})
+        res.status(500).json({message: 'Unable to save to database',status: false})
       });
 
 
@@ -162,14 +183,14 @@ app.get('/getLanguage', function(req,res){
  Languages.find({}).then(documents=>{
    res.status(200).json({response:documents,count: documents.length});
  }).catch(err=>{
-  res.status(400).json({error: "Cannot Fetch Languages from Database"});
+  res.status(500).json({error: "Cannot Fetch Languages from Database"});
  })
 });
 app.get('/getPlan', function(req,res){
   Plans.find({}).then(documents=>{
     res.status(200).json({response:documents,count: documents.length});
   }).catch(err=>{
-   res.status(400).json({error: "Cannot Fetch Languages from Database"});
+   res.status(500).json({error: "Cannot Fetch Languages from Database"});
   })
 });
 
