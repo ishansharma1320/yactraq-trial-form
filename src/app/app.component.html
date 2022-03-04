@@ -143,7 +143,13 @@
         <mat-form-field fxFlex="28.75%"  fxFlexFill appearance="outline">
           <mat-label> Country
           </mat-label>
-          <input type="text" matInput  formControlName="country" required>
+          <input type="text" matInput  formControlName="country"[matAutocomplete]="country" required>
+          <mat-autocomplete #country="matAutocomplete" [displayWith]="cNameDisplayFn">
+            <mat-option *ngFor="let option of filteredCNameOptions | async" [value]="option">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+  
           <mat-error *ngIf="trialForm.controls['country'].touched && trialForm.controls['country'].invalid">
             <span *ngIf="trialForm.controls['country'].errors !== null && trialForm.controls['country'].errors['required']">This field is mandatory.</span>
           </mat-error>
@@ -152,7 +158,13 @@
         <mat-form-field fxFlex="28.75%"  fxFlexFill appearance="outline">
           <mat-label> Country Code
           </mat-label>
-          <input type="text" matInput  formControlName="ccode" required>
+          <input type="text" matInput  formControlName="ccode"[matAutocomplete]="ccode" required>
+          <mat-autocomplete #ccode="matAutocomplete" [displayWith]="cCodeDisplayFn">
+            <mat-option *ngFor="let option of filteredCcodeOptions | async" [value]="option">
+              {{option.dial_code}}
+            </mat-option>
+          </mat-autocomplete>
+  
           <mat-error *ngIf="trialForm.controls['ccode'].touched && trialForm.controls['ccode'].invalid">
             <span *ngIf="trialForm.controls['ccode'].errors !== null && trialForm.controls['ccode'].errors['required']">Required.</span>
           </mat-error>
@@ -174,7 +186,13 @@
     <mat-form-field fxFlex="28.75%"  fxFlexFill appearance="outline">
       <mat-label> Category
       </mat-label>
-      <input type="text" matInput  formControlName="orgcat" required>
+      <input type="text" matInput  formControlName="orgcat"[matAutocomplete]="orgcat" required>
+      <mat-autocomplete #orgcat="matAutocomplete" [displayWith]="industryDisplayFn">
+        <mat-option *ngFor="let option of filteredIndustryOptions | async" [value]="option">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+
       <mat-error *ngIf="trialForm.controls['orgcat'].touched && trialForm.controls['orgcat'].invalid">
         <span *ngIf="trialForm.controls['orgcat'].errors !== null && trialForm.controls['orgcat'].errors['required']">This field is mandatory.</span>
       </mat-error>

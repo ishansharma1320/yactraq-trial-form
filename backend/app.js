@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 
-
+const cclist = require('./config/countries-and-phone-codes');
+const industries = require('./config/industries');
 const config = require('./config/development');
 const Languages = require('./models/Languages');
 const Plans = require('./models/Plans');
@@ -147,7 +148,14 @@ app.get('/getLanguage', function(req,res){
     res.status(500).json({error: "Cannot Fetch Languages from Database"});
    })
  });
- 
+
+app.get('/getInitData',(req,res)=>{
+  const ccneeded = cclist.map(({code,...item})=>item); 
+  res.status(200).json({response: {
+    countryInfo: ccneeded,
+    industries: industries
+  }});
+});
 
 app.post('/postForm', function (req, res) {
   upload(req,res,function(err){

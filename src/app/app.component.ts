@@ -6,10 +6,9 @@ import {map, startWith} from 'rxjs/operators';
 import { AppService } from './app.service';
 import { Plan } from './models/plans.model';
 import { Language } from './models/languages.model';
-export interface Country {
-  countryCode: string;
-  countryName: string;
-}
+import { Country } from './models/country.model';
+import { Industry } from './models/industry.model';
+
 
 @Component({
   selector: 'app-root',
@@ -24,9 +23,11 @@ export class AppComponent implements OnInit {
   message: String;
   langList: Language[] = [];
   plansList: Plan[] = [];
-  options: Country[] = [{countryName: 'India', countryCode: '+91'}, {countryName: 'Australia', countryCode: '+61'}, {countryName: 'USA', countryCode: '+1'}];
+  countryInfoOptions: Country[];
+  industryOptions: Industry[];
   filteredCNameOptions: Observable<Country[]>;
   filteredCcodeOptions: Observable<Country[]>;
+  filteredIndustryOptions: Observable<Industry[]>;
   trialForm = new FormGroup({
     name: new FormControl('', Validators.required),
     country: new FormControl('', Validators.required),
@@ -44,7 +45,15 @@ export class AppComponent implements OnInit {
   constructor(private appService: AppService) { }
 
   ngOnInit() {
-    
+    this.appService.getInitData().subscribe(success=>{
+      console.log('success');
+      this.countryInfoOptions = success.response.countryInfo;
+      this.industryOptions = success.response.industries;
+      console.log(this.countryInfoOptions);
+    },failure=>{
+      this.countryInfoOptions = [];
+      this.industryOptions = [];
+    })
     this.appService.getLanguages().subscribe(success=>{
       success.response.map((item)=>{
         // console.log(item);
@@ -63,23 +72,29 @@ export class AppComponent implements OnInit {
     })
     this.filteredCNameOptions = this.trialForm.controls['country'].valueChanges.pipe(
       startWith(''),
-      map(value => (typeof value === 'string' ? value : value === undefined || value === null? '':value.countryName)),
-      map(name => (name ? this._filter(name,'country') : this.options.slice())),
+      map(value => (typeof value === 'string' ? value : value === undefined || value === null? '':value.name)),
+      map(name => (name ? this._filter(name,'country') : this.countryInfoOptions.slice())),
     );
     this.filteredCcodeOptions = this.trialForm.controls['ccode'].valueChanges.pipe(
       startWith(''),
-      map(value => (typeof value === 'string' ? value : value === undefined || value === null? '':value.countryCode)),
-      map(name => (name ? this._filter(name,'') : this.options.slice())),
+      map(value => (typeof value === 'string' ? value : value === undefined || value === null? '':value.dial_code)),
+      map(name => (name ? this._filter(name,'ccode') : this.countryInfoOptions.slice())),
     );
-    
+    this.filteredIndustryOptions= this.trialForm.controls['orgcat'].valueChanges.pipe(
+      startWith(''),
+      map(value => (typeof value === 'string' ? value : value === undefined || value === null? '':value.name)),
+      map(name => (name ? this._filter(name,'industry') : this.industryOptions.slice())),
+    );
   }
   cNameDisplayFn(country: Country): string {
-    return country && country.countryName ? country.countryName : '';
+    return country && country.name ? country.name : '';
   }
   cCodeDisplayFn(country: Country): string {
-    return country && country.countryName ? country.countryName : '';
+    return country && country.dial_code ? country.dial_code : '';
   }
-
+  industryDisplayFn(industry: Industry): string {
+    return industry && industry.name ? industry.name : '';
+  }
   
   goBackToForm(): void {
     this.formSubmitted = false;
@@ -93,17 +108,22 @@ export class AppComponent implements OnInit {
       // console.log(this.trialForm.get('fileSource').value);
     }
   }
-  private _filter(name: string,control: string): Country[] {
+  private _filter(name: string,control: string): any {
     console.log(name);
     const filterValue = name.toLowerCase();
     let res;
     switch(control){
       case 'country':{
-        res = this.options.filter(option => option.countryName.toLowerCase().includes(filterValue));
+        res = this.countryInfoOptions.filter(option => option.name.toLowerCase().includes(filterValue));
         break;
       }
-      default:{
-        res = this.options.filter(option => option.countryCode.toLowerCase().includes(filterValue));
+      case 'ccode':{
+        res = this.countryInfoOptions.filter(option => option.dial_code.toLowerCase().includes(filterValue));
+        break;
+      }
+      case 'industry':{
+        res = this.industryOptions.filter(option => option.name.toLowerCase().includes(filterValue));
+        break;
       }
       }
     return res;

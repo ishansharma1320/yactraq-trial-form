@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import {Injectable} from '@angular/core';
+import { Country } from './models/country.model';
+import { Industry } from './models/industry.model';
 @Injectable()
 export class AppService{
     constructor(private httpClient: HttpClient) { }
@@ -10,6 +12,9 @@ export class AppService{
     }
     getLanguages(){
         return this.httpClient.get<{response: [{'_id': String, "value": String, "viewValue": String}]}>(this.SERVER_URL+'getLanguage');
+    }
+    getInitData(){
+        return this.httpClient.get<{response: {countryInfo: Country[],industries: Industry[]}}>(this.SERVER_URL+'getInitData');
     }
     postFormData(data: FormData){
         //API CALL
