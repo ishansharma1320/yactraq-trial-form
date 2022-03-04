@@ -1,4 +1,4 @@
-<div class="outer-container">
+<!-- <div class="outer-container">
   <h2> Yactraq Transcripts Trial </h2>
   
   <div class="form-container">
@@ -113,4 +113,133 @@
       <button mat-raised-button color="primary" type="submit" [disabled]="!trialForm.valid" style="width : 10em;">Submit</button>
     </form>
   </div>
+</div> -->
+<section fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+  
+  <mat-card fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
+    <form [formGroup]="trialForm" (submit)="submit()">
+      <div fxLayout="row" class="block-1" fxLayoutGap="10px" fxLayoutAlign="center center">
+        
+          <mat-form-field fxFlex="28.75%"  fxFlexFill appearance="outline">
+            <mat-label> Name
+            </mat-label>
+            <input type="text" matInput  formControlName="name" required>
+            <mat-error *ngIf="trialForm.controls['name'].touched && trialForm.controls['name'].invalid">
+              <span *ngIf="trialForm.controls['name'].errors !== null && trialForm.controls['name'].errors['required']">This field is mandatory.</span>
+            </mat-error>
+          </mat-form-field>
+        
+        <mat-form-field fxFlex="28.75%"  fxFlexFill appearance="outline">
+          <mat-label> Organisation
+          </mat-label>
+          <input type="text" matInput  formControlName="org" required>
+          <mat-error *ngIf="trialForm.controls['org'].touched && trialForm.controls['org'].invalid">
+            <span *ngIf="trialForm.controls['org'].errors !== null && trialForm.controls['org'].errors['required']">This field is mandatory.</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" class="block-1" fxLayoutGap="10px" fxLayoutAlign="center center">
+        
+        <mat-form-field fxFlex="28.75%"  fxFlexFill appearance="outline">
+          <mat-label> Country
+          </mat-label>
+          <input type="text" matInput  formControlName="country" required>
+          <mat-error *ngIf="trialForm.controls['country'].touched && trialForm.controls['country'].invalid">
+            <span *ngIf="trialForm.controls['country'].errors !== null && trialForm.controls['country'].errors['required']">This field is mandatory.</span>
+          </mat-error>
+        </mat-form-field>
+      
+        <mat-form-field fxFlex="28.75%"  fxFlexFill appearance="outline">
+          <mat-label> Country Code
+          </mat-label>
+          <input type="text" matInput  formControlName="ccode" required>
+          <mat-error *ngIf="trialForm.controls['ccode'].touched && trialForm.controls['ccode'].invalid">
+            <span *ngIf="trialForm.controls['ccode'].errors !== null && trialForm.controls['ccode'].errors['required']">Required.</span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+    <div fxLayout="row" class="block-1" fxLayoutGap="10px" fxLayoutAlign="center center">
+        
+      <mat-form-field fxFlex="28.75%"  fxFlexFill appearance="outline">
+        <mat-label> Phone
+        </mat-label>
+        <input type="tel" matInput  formControlName="phone" required>
+        <mat-error *ngIf="trialForm.controls['phone'].touched && trialForm.controls['phone'].invalid">
+          <span *ngIf="trialForm.controls['phone'].errors !== null && trialForm.controls['phone'].errors['required']">This field is mandatory.</span>
+        </mat-error>
+      </mat-form-field>
+  
+    
+    <mat-form-field fxFlex="28.75%"  fxFlexFill appearance="outline">
+      <mat-label> Category
+      </mat-label>
+      <input type="text" matInput  formControlName="orgcat" required>
+      <mat-error *ngIf="trialForm.controls['orgcat'].touched && trialForm.controls['orgcat'].invalid">
+        <span *ngIf="trialForm.controls['orgcat'].errors !== null && trialForm.controls['orgcat'].errors['required']">This field is mandatory.</span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="row" class="block-1" fxLayoutGap="10px" fxLayoutAlign="center center">
+        
+  
+  <mat-form-field fxFlex="28.75%"  fxFlexFill appearance="outline">
+    <mat-label> Position
+    </mat-label>
+    <input type="text" matInput formControlName="orgpos" required>
+    <mat-error *ngIf="trialForm.controls['orgpos'].touched && trialForm.controls['orgpos'].invalid">
+      <span *ngIf="trialForm.controls['orgpos'].errors !== null && trialForm.controls['orgpos'].errors['required']">This field is mandatory.</span>
+    </mat-error>
+  </mat-form-field>
+  
+  <mat-form-field fxFlex="28.75%"  fxFlexFill appearance="outline">
+    <mat-label> Language
+    </mat-label>
+    <input type="text" matInput formControlName="lang" required>
+    <mat-error *ngIf="trialForm.controls['lang'].touched && trialForm.controls['lang'].invalid">
+      <span *ngIf="trialForm.controls['lang'].errors !== null && trialForm.controls['lang'].errors['required']">This field is mandatory.</span>
+    </mat-error>
+  </mat-form-field>
+
 </div>
+
+<div fxLayout="row" class="block-3" fxLayoutAlign="center center">
+  <mat-form-field fxFlex="58.25%"  fxFlexFill appearance="outline">
+    <mat-label> Plans
+    </mat-label>
+    <input type="text" matInput  formControlName="plans" required>
+    <mat-error *ngIf="trialForm.controls['plans'].touched && trialForm.controls['plans'].invalid">
+      <span *ngIf="trialForm.controls['plans'].errors !== null && trialForm.controls['plans'].errors['required']">This field is mandatory.</span>
+    </mat-error>
+  </mat-form-field>
+  
+</div>
+<div fxLayout="row" class="block-3" fxLayoutAlign="center center">
+  <mat-form-field fxFlex="58.25%"  fxFlexFill appearance="outline">
+    <mat-label> Email
+    </mat-label>
+    <input type="email" matInput formControlName="email" required>
+    <mat-error *ngIf="trialForm.controls['email'].touched && trialForm.controls['email'].invalid">
+      <span *ngIf="trialForm.controls['email'].errors !== null && trialForm.controls['email'].errors['required']">This field is mandatory.</span>
+      <span *ngIf="trialForm.controls['email'].errors !== null && trialForm.controls['email'].errors['email']"> Please enter a proper email</span>
+    </mat-error>
+  </mat-form-field>
+  
+</div>
+
+<div fxLayout="row" class="upload" fxLayoutAlign="center center" >
+  <input #fileInput
+      id="file" 
+      type="file" 
+      accept="audio/*"
+      required>
+</div>
+<div fxLayout="row" class="submit-outer" fxLayoutAlign="center center" >
+  <button fxFlex="58.25%" class="submit" fxFlexFill type="submit"> Submit</button>
+</div>
+</form>  
+  </mat-card>
+
+</section>
+

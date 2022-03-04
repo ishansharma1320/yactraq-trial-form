@@ -34,6 +34,8 @@ export class AppComponent implements OnInit {
     phone: new FormControl('', Validators.required),
     email:  new FormControl('', [Validators.required,Validators.email]),
     org: new FormControl('', Validators.required),
+    orgcat: new FormControl('', Validators.required),
+    orgpos: new FormControl('', Validators.required),
     lang: new FormControl('',Validators.required),
     plans:  new FormControl('',Validators.required),
     fileSource: new FormControl('', [Validators.required])

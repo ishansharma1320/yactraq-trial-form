@@ -1,4 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+height: 100%;
+margin-left: 0;
+margin-right: 0;
+margin-top: 0;
+margin-bottom: 0; 
+background-image: url('https://www.teahub.io/photos/full/313-3132029_linkedin-wallpaper-wallpapersafari-background-image-for-form-in.jpg');
+background-repeat: no-repeat;
+background-position: center center;
+background-attachment: fixed;
+background-size: cover;
+}
