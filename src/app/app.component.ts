@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, AfterViewInit } from '@angular/core';
 // import {FormControl, Validators} from '@angular/forms';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {Observable} from 'rxjs';
@@ -23,8 +23,8 @@ export class AppComponent implements OnInit {
   message: String;
   langList: Language[] = [];
   plansList: Plan[] = [];
-  countryInfoOptions: Country[];
-  industryOptions: Industry[];
+  countryInfoOptions: Country[] = [];
+  industryOptions: Industry[] = [];
   filteredCNameOptions: Observable<Country[]>;
   filteredCcodeOptions: Observable<Country[]>;
   filteredIndustryOptions: Observable<Industry[]>;
@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
       console.log('success');
       this.countryInfoOptions = success.response.countryInfo;
       this.industryOptions = success.response.industries;
-      console.log(this.countryInfoOptions);
+      console.log(this.industryOptions);
     },failure=>{
       this.countryInfoOptions = [];
       this.industryOptions = [];
@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
       map(value => (typeof value === 'string' ? value : value === undefined || value === null? '':value.dial_code)),
       map(name => (name ? this._filter(name,'ccode') : this.countryInfoOptions.slice())),
     );
-    this.filteredIndustryOptions= this.trialForm.controls['orgcat'].valueChanges.pipe(
+    this.filteredIndustryOptions = this.trialForm.controls['orgcat'].valueChanges.pipe(
       startWith(''),
       map(value => (typeof value === 'string' ? value : value === undefined || value === null? '':value.name)),
       map(name => (name ? this._filter(name,'industry') : this.industryOptions.slice())),
