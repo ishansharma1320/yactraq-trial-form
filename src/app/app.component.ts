@@ -105,7 +105,7 @@ export class AppComponent implements OnInit {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.trialForm.get('fileSource').setValue(file);
-      // console.log(this.trialForm.get('fileSource').value);
+      
     }
   }
   private _filter(name: string,control: string): any {
@@ -145,8 +145,17 @@ export class AppComponent implements OnInit {
   }
   
 submit(): void {
-    if (!this.trialForm.valid) {
-      return;
+  
+  if (!this.trialForm.valid) {
+    // const invalid = [];
+    // const controls = this.trialForm.controls;
+    // for (const name in controls) {
+    //     if (controls[name].invalid) {
+    //         invalid.push(name);
+    //     }
+    // }
+    // console.log(invalid);
+    return;
     }
     
     const formData = this._createFormData();

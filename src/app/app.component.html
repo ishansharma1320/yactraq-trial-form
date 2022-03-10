@@ -214,7 +214,11 @@
   <mat-form-field fxFlex="28.75%"  fxFlexFill appearance="outline">
     <mat-label> Language
     </mat-label>
-    <input type="text" matInput formControlName="lang" required>
+    <mat-select formControlName="lang" required>
+      <mat-option *ngFor="let lang of langList" [value]="lang.value">
+        {{lang.viewValue}}
+      </mat-option>
+    </mat-select>
     <mat-error *ngIf="trialForm.controls['lang'].touched && trialForm.controls['lang'].invalid">
       <span *ngIf="trialForm.controls['lang'].errors !== null && trialForm.controls['lang'].errors['required']">This field is mandatory.</span>
     </mat-error>
@@ -226,7 +230,11 @@
   <mat-form-field fxFlex="58.25%"  fxFlexFill appearance="outline">
     <mat-label> Plans
     </mat-label>
-    <input type="text" matInput  formControlName="plans" required>
+    <mat-select multiple formControlName="plans" required>
+      <mat-option *ngFor="let plan of plansList" [value]="plan.value">
+        {{plan.viewValue}}
+      </mat-option>
+    </mat-select>
     <mat-error *ngIf="trialForm.controls['plans'].touched && trialForm.controls['plans'].invalid">
       <span *ngIf="trialForm.controls['plans'].errors !== null && trialForm.controls['plans'].errors['required']">This field is mandatory.</span>
     </mat-error>
@@ -251,6 +259,7 @@
       id="file" 
       type="file" 
       accept="audio/*"
+      (change)="onFileChange($event)"
       required>
 </div>
 <div fxLayout="row" class="submit-outer" fxLayoutAlign="center center" >
