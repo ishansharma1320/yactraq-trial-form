@@ -52,6 +52,23 @@ viewBox="0 0 487.95 487.95" style="enable-background:new 0 0 487.95 487.95;" xml
 </g>
 </svg>
 `;
+
+const ADD_ICON = `
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="400px" height="400px" viewBox="0 0 400 400" style="enable-background:new 0 0 400 400;" xml:space="preserve">
+<g>
+	<g>
+		<path d="M199.995,0C89.716,0,0,89.72,0,200c0,110.279,89.716,200,199.995,200C310.277,400,400,310.279,400,200
+			C400,89.72,310.277,0,199.995,0z M199.995,373.77C104.182,373.77,26.23,295.816,26.23,200c0-95.817,77.951-173.77,173.765-173.77
+			c95.817,0,173.772,77.953,173.772,173.77C373.769,295.816,295.812,373.77,199.995,373.77z"/>
+		<path d="M279.478,186.884h-66.363V120.52c0-7.243-5.872-13.115-13.115-13.115s-13.115,5.873-13.115,13.115v66.368h-66.361
+			c-7.242,0-13.115,5.873-13.115,13.115c0,7.243,5.873,13.115,13.115,13.115h66.358v66.362c0,7.242,5.872,13.114,13.115,13.114
+			c7.242,0,13.115-5.872,13.115-13.114v-66.365h66.367c7.241,0,13.114-5.873,13.114-13.115
+			C292.593,192.757,286.72,186.884,279.478,186.884z"/>
+	</g>
+</g>
+</svg>
+`;
 @Component({
   selector: 'app-transcripts',
   templateUrl: './transcripts.component.html',
@@ -59,7 +76,6 @@ viewBox="0 0 487.95 487.95" style="enable-background:new 0 0 487.95 487.95;" xml
 })
 export class TranscriptsComponent implements OnInit {
   conversation = null;
-  
   conversations = [
     {
       id: '1',
@@ -99,14 +115,173 @@ export class TranscriptsComponent implements OnInit {
         { id: 3, body: 'I am fine thanks',speaker:'left'},
         { id: 4, body: 'Glad to hear that',speaker:'right'},
       ],
-    }];
+    },
+    {
+      id: '4',
+      call_id: '6123456',
+      account_id: 'Hotstar',
+      engine: 'Basic',
+      selected: false,
+      transcript: [
+        { id: 1, body: 'Hello world', speaker:'left'},
+        { id: 2, body: 'How are you?', speaker:'right'},
+        { id: 3, body: 'I am fine thanks',speaker:'left'},
+        { id: 4, body: 'Glad to hear that',speaker:'right'},
+      ],
+    },
+    {
+      id: '5',
+      call_id: '6123456',
+      account_id: 'Hotstar',
+      engine: 'Basic Plus',
+      selected: false,
+      transcript: [
+        { id: 1, body: 'Hello world', speaker:'left'},
+        { id: 2, body: 'How are you?', speaker:'right'},
+        { id: 3, body: 'I am fine thanks',speaker:'left'},
+        { id: 4, body: 'Glad to hear that',speaker:'right'},
+      ],
+    },
+    {
+      id: '6', //Object ID
+      call_id: '6123456',
+      account_id: 'Hotstar',
+      engine: 'Advanced',
+      selected: false,
+      transcript: [
+        { id: 1, body: 'Hello world', speaker:'left'},
+        { id: 2, body: 'How are you?', speaker:'right'},
+        { id: 3, body: 'I am fine thanks',speaker:'left'},
+        { id: 4, body: 'Glad to hear that',speaker:'right'},
+      ]
+    },
+    {
+      id: '7',
+      call_id: '6123456',
+      account_id: 'Hotstar',
+      engine: 'Basic',
+      selected: false,
+      transcript: [
+        { id: 1, body: 'Hello world', speaker:'left'},
+        { id: 2, body: 'How are you?', speaker:'right'},
+        { id: 3, body: 'I am fine thanks',speaker:'left'},
+        { id: 4, body: 'Glad to hear that',speaker:'right'},
+      ],
+    },
+    {
+      id: '8',
+      call_id: '6123456',
+      account_id: 'Hotstar',
+      engine: 'Basic Plus',
+      selected: false,
+      transcript: [
+        { id: 1, body: 'Hello world', speaker:'left'},
+        { id: 2, body: 'How are you?', speaker:'right'},
+        { id: 3, body: 'I am fine thanks',speaker:'left'},
+        { id: 4, body: 'Glad to hear that',speaker:'right'},
+      ],
+    },
+    {
+      id: '9', //Object ID
+      call_id: '6123456',
+      account_id: 'Hotstar',
+      engine: 'Advanced',
+      selected: false,
+      transcript: [
+        { id: 1, body: 'Hello world', speaker:'left'},
+        { id: 2, body: 'How are you?', speaker:'right'},
+        { id: 3, body: 'I am fine thanks',speaker:'left'},
+        { id: 4, body: 'Glad to hear that',speaker:'right'},
+      ]
+    },
+    {
+      id: '10',
+      call_id: '6123456',
+      account_id: 'Hotstar',
+      engine: 'Basic',
+      selected: false,
+      transcript: [
+        { id: 1, body: 'Hello world', speaker:'left'},
+        { id: 2, body: 'How are you?', speaker:'right'},
+        { id: 3, body: 'I am fine thanks',speaker:'left'},
+        { id: 4, body: 'Glad to hear that',speaker:'right'},
+      ],
+    },
+    {
+      id: '11',
+      call_id: '6123456',
+      account_id: 'Hotstar',
+      engine: 'Basic Plus',
+      selected: false,
+      transcript: [
+        { id: 1, body: 'Hello world', speaker:'left'},
+        { id: 2, body: 'How are you?', speaker:'right'},
+        { id: 3, body: 'I am fine thanks',speaker:'left'},
+        { id: 4, body: 'Glad to hear that',speaker:'right'},
+      ],
+    },
+    {
+      id: '12', //Object ID
+      call_id: '6123456',
+      account_id: 'Hotstar',
+      engine: 'Advanced',
+      selected: false,
+      transcript: [
+        { id: 1, body: 'Hello world', speaker:'left'},
+        { id: 2, body: 'How are you?', speaker:'right'},
+        { id: 3, body: 'I am fine thanks',speaker:'left'},
+        { id: 4, body: 'Glad to hear that',speaker:'right'},
+      ]
+    },
+    {
+      id: '1',
+      call_id: '6123456',
+      account_id: 'Hotstar',
+      engine: 'Basic',
+      selected: false,
+      transcript: [
+        { id: 1, body: 'Hello world', speaker:'left'},
+        { id: 2, body: 'How are you?', speaker:'right'},
+        { id: 3, body: 'I am fine thanks',speaker:'left'},
+        { id: 4, body: 'Glad to hear that',speaker:'right'},
+      ],
+    },
+    {
+      id: '2',
+      call_id: '6123456',
+      account_id: 'Hotstar',
+      engine: 'Basic Plus',
+      selected: false,
+      transcript: [
+        { id: 1, body: 'Hello world', speaker:'left'},
+        { id: 2, body: 'How are you?', speaker:'right'},
+        { id: 3, body: 'I am fine thanks',speaker:'left'},
+        { id: 4, body: 'Glad to hear that',speaker:'right'},
+      ],
+    },
+    {
+      id: '3', //Object ID
+      call_id: '6123456',
+      account_id: 'Hotstar',
+      engine: 'Advanced',
+      selected: false,
+      transcript: [
+        { id: 1, body: 'Hello world', speaker:'left'},
+        { id: 2, body: 'How are you?', speaker:'right'},
+        { id: 3, body: 'I am fine thanks',speaker:'left'},
+        { id: 4, body: 'Glad to hear that',speaker:'right'},
+      ]
+    },];
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIconLiteral('download', sanitizer.bypassSecurityTrustHtml(DOWNLOAD_ICON));
     iconRegistry.addSvgIconLiteral('chat', sanitizer.bypassSecurityTrustHtml(CHAT_ICON));
     iconRegistry.addSvgIconLiteral('search', sanitizer.bypassSecurityTrustHtml(SEARCH_ICON));
+    iconRegistry.addSvgIconLiteral('add', sanitizer.bypassSecurityTrustHtml(ADD_ICON));
    }
 
   ngOnInit(): void {
+    this.conversation = this.conversations[0]
+    this.conversations[0].selected = true;
   }
   onConversationSelected(uid: string){
     this.conversation = this.conversations.filter((item)=>item.id == uid)[0];

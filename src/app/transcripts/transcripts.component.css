@@ -18,9 +18,10 @@
     border-right: 1px solid #CCC;
     display: flex;
     flex-direction: column;
+    
 }
 #sidebarHeaderContainer{
-    flex-basis: 15%;
+    flex-basis: 150px;
     border-bottom: 1px solid #CCC;
     display: flex;
     flex-direction: column;
@@ -32,6 +33,13 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+}
+#sidebarHeaderNavGroupRight{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-right: 10px;
 }
 #sidebarHeaderSearch{
     flex-basis: 50%;
@@ -59,19 +67,18 @@
     display: flex;
     flex-direction: row;
 }
-#download,#chat{
+#download-icon,#chat-icon,#add-icon{
     width: 20px;
     height: 20px;
 }
-#download{
+#download-icon{
     margin-left: 10px;
 }
-#chat{
-    margin-right: 10px;
-}
+
 #sidebarContent{
     flex-grow: 1;
     background-color: #f5f5f5;
+    overflow:auto;
 }
 #conversationContainer{
     flex-basis: 100%;

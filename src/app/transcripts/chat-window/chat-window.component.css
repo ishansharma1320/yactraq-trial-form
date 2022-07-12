@@ -6,7 +6,7 @@
 }
 #chatWindowHeader{
     background-color: #f4f4f4;
-    flex-basis: 7.5%;
+    flex-basis: 63.63px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -31,6 +31,7 @@
     flex-direction: column;
     justify-content: flex-end;
     padding: 20px 50px;
+    overflow: scroll;
 }
 ::ng-deep .mat-typography p{
     margin:0px;
