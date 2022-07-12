@@ -1,0 +1,15 @@
+<div id="chatWindowContainer">
+    <div id="chatWindowHeader">
+        <p id="callId">{{conversation.call_id}}</p>
+        <p id="engine">{{conversation.engine}}</p>
+    </div>
+    <div id="chatWindowBody">
+
+        <div id="chatWindowContent"  *ngFor="let message of conversation.transcript" [ngClass]="message.speaker === 'left'?'chat-outer-left':'chat-outer-right'">
+            <div  class="chat" [ngClass]="message.speaker === 'left'?'chat-left':'chat-right'">
+                {{message.body}}
+            </div>
+            
+        </div>
+    </div>
+</div>

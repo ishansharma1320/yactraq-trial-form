@@ -1,0 +1,73 @@
+<section fxLayout="column" fxLayoutAlign="center center">
+  
+    <mat-card fxLayout="column" fxLayoutAlign="center" >
+      <form [formGroup]="trialForm" (submit)="submit()">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <mat-form-field fxFlex="58.25%"  appearance="outline">
+            <mat-label> Account ID
+            </mat-label>
+            <input type="text" matInput formControlName="account_id" required>
+            <mat-error *ngIf="trialForm.controls['account_id'].touched && trialForm.controls['account_id'].invalid && trialForm.controls['account_id'].errors !== null && trialForm.controls['account_id'].errors['required']">
+             <span>This field is mandatory.</span> 
+            </mat-error>
+          </mat-form-field>
+          
+        </div>
+        
+  
+  
+    
+    
+    
+        <div fxLayout="row" class="block-1" fxLayoutGap="0.5em" fxLayoutAlign="center center">
+          
+    
+    <mat-form-field fxFlex="58.25%"  fxFlexFill appearance="outline">
+      <mat-label> Language
+      </mat-label>
+      <mat-select formControlName="lang" required>
+        <mat-option *ngFor="let lang of langList" [value]="lang.value">
+          {{lang.viewValue}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="trialForm.controls['lang'].touched && trialForm.controls['lang'].invalid">
+        <span *ngIf="trialForm.controls['lang'].errors !== null && trialForm.controls['lang'].errors['required']">This field is mandatory.</span>
+      </mat-error>
+    </mat-form-field>
+  
+  </div>
+  
+  <div fxLayout="row" class="block-3" fxLayoutGap="0.5em" fxLayoutAlign="center center">
+    <mat-form-field fxFlex="58.25%"  fxFlexFill appearance="outline">
+      <mat-label> Plans
+      </mat-label>
+      <mat-select multiple formControlName="plans" required>
+        <mat-option *ngFor="let plan of plansList" [value]="plan.value">
+          {{plan.viewValue}}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="trialForm.controls['plans'].touched && trialForm.controls['plans'].invalid">
+        <span *ngIf="trialForm.controls['plans'].errors !== null && trialForm.controls['plans'].errors['required']">This field is mandatory.</span>
+      </mat-error>
+    </mat-form-field>
+    
+  </div>
+  
+  
+  <div fxLayout="row" class="upload" fxLayoutAlign="center center" >
+    <input #fileInput
+        id="file" 
+        type="file" 
+        accept="audio/*"
+        (change)="onFileChange($event)"
+        required>
+  </div>
+  <div fxLayout="row" class="submit-outer" fxLayoutAlign="center center" >
+    <button fxFlex="58.25%" class="submit" fxFlexFill type="submit"> Submit</button>
+  </div>
+  </form>  
+    </mat-card>
+  
+  </section>
+  
+  

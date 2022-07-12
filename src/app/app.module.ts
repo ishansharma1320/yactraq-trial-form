@@ -13,11 +13,21 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatIconModule} from '@angular/material/icon';
+import { FormComponent } from './form/form.component';
+import { TranscriptsComponent } from './transcripts/transcripts.component';
+import { ChatSidebarContainerComponent } from './transcripts/chat-sidebar-container/chat-sidebar-container.component';
+import { ChatWindowComponent } from './transcripts/chat-window/chat-window.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FormComponent,
+    TranscriptsComponent,
+    ChatSidebarContainerComponent,
+    ChatWindowComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +36,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatCardModule,
     MatGridListModule,
     MatFormFieldModule,
+    MatCheckboxModule,
     MatInputModule,
+    MatIconModule,
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,

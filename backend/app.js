@@ -261,7 +261,9 @@ app.delete('/deletePlans',function(req,res){
 
 });
 // ----------- internal API Ends -------------
-
+app.get('*',(req,res)=>{
+  res.sendFile(path.join(filePath,'index.html'));
+})
 
 app.listen(PORT, function () {
     console.log('server started at port : '+PORT);
