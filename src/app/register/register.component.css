@@ -18,16 +18,6 @@
 .form-field{
     display: block
 }
-input[type=file]::-webkit-file-upload-button {
-    background: #5c5cd6;
-    color: white;
-    padding-top: 0.7em;
-    padding-bottom: 0.7em;
-    width: 50%;
-    border-color: #5c5cd6;
-    border-radius: 0.5em;
-    margin-right: 2em;
-  }
 .submit-outer{
     margin-top: 1em;
 }
@@ -40,11 +30,7 @@ input[type=file]::-webkit-file-upload-button {
     
 
 }
-.upload {
-    position: relative;
-    margin-top: 1em;
-    margin-bottom: 1.25em;
-}
+
 mat-card {
     width: 850px;
     height: 600px;
@@ -56,17 +42,13 @@ mat-card {
     vertical-align: middle;
     height: 100%;
   }
-  /* ::ng-deep .mat-form-field-wrapper{
-      padding-bottom: 0;
-    } */
-
-    .active{
-        background-color: #f1f1f1;
-    }
-    #nav{
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        margin-top: 10px;
+  .active{
+    background-color: #f1f1f1;
+}
+#nav{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 10px;
         margin-right: 20px;
-    }
+}

@@ -1,12 +1,19 @@
+<div id="nav">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <mat-icon id="menu-icon" svgIcon="menu"></mat-icon>
+    </button>
+    <mat-menu id="nav-menu" #menu="matMenu">
+      <button mat-menu-item routerLink="/form"  [ngClass]="router.url === '/form'? 'active':''">Form</button>
+      <button mat-menu-item routerLink="/transcripts"  [ngClass]="router.url === '/transcripts'? 'active':''"> Transcripts</button>
+      <a mat-menu-item   href="/auth/logout"> Logout</a>
+    </mat-menu>
+    
+  </div>
 <div id="chatContainer">
     <div id="sidebar">
         <div id="sidebarHeaderContainer">
             <div id="sidebarHeaderNav">
                 <mat-icon id="download-icon" svgIcon="download"></mat-icon>
-                <div id="sidebarHeaderNavGroupRight">
-                    <mat-icon id="add-icon" svgIcon="add"></mat-icon>
-                    <mat-icon id="chat-icon" svgIcon="chat"></mat-icon>
-                </div>
                 
             </div>
             <div id="sidebarHeaderSearch">

@@ -15,10 +15,13 @@ import { HttpClientModule } from '@angular/common/http';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
 import { FormComponent } from './form/form.component';
 import { TranscriptsComponent } from './transcripts/transcripts.component';
 import { ChatSidebarContainerComponent } from './transcripts/chat-sidebar-container/chat-sidebar-container.component';
 import { ChatWindowComponent } from './transcripts/chat-window/chat-window.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({
@@ -27,7 +30,9 @@ import { ChatWindowComponent } from './transcripts/chat-window/chat-window.compo
     FormComponent,
     TranscriptsComponent,
     ChatSidebarContainerComponent,
-    ChatWindowComponent
+    ChatWindowComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +44,7 @@ import { ChatWindowComponent } from './transcripts/chat-window/chat-window.compo
     MatCheckboxModule,
     MatInputModule,
     MatIconModule,
+    MatMenuModule,
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,

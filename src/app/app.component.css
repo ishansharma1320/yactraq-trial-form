@@ -1,0 +1,23 @@
+#app-container{
+    display:flex;
+    flex-direction: column;
+    
+}
+#app-header{
+    margin: 20px 30px 0 0;
+    flex-basis:100px;
+    align-self: flex-end;
+}
+#menu-icon{
+    color: white;
+}
+#app-body{
+    flex-grow: 1;
+    margin-top: 20vh;
+}
+.active{
+    background-color: #f1f1f1;
+}
+#nav-menu a {
+    text-decoration: none;
+}

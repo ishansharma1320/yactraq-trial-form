@@ -1,6 +1,18 @@
+<div id="nav">
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon id="menu-icon" svgIcon="menu"></mat-icon>
+  </button>
+  <mat-menu id="nav-menu" #menu="matMenu">
+    <button mat-menu-item routerLink="/form"  [ngClass]="router.url === '/form'? 'active':''">Form</button>
+    <button mat-menu-item routerLink="/transcripts"  [ngClass]="router.url === '/transcripts'? 'active':''"> Transcripts</button>
+    <a mat-menu-item   href="/auth/logout"> Logout</a>
+  </mat-menu>
+  
+</div>
 <section fxLayout="column" fxLayoutAlign="center center">
   
     <mat-card fxLayout="column" fxLayoutAlign="center" >
+      <mat-card-title style="text-align: center;margin-bottom: 50px;">NEW TRANSCRIPTION</mat-card-title>
       <form [formGroup]="trialForm" (submit)="submit()">
         <div fxLayout="row" fxLayoutAlign="center center">
           <mat-form-field fxFlex="58.25%"  appearance="outline">

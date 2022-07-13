@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
+import { AppService } from '../app.service';
+import { Router } from '@angular/router';
 
 const DOWNLOAD_ICON =
   `
@@ -72,7 +74,8 @@ const ADD_ICON = `
 @Component({
   selector: 'app-transcripts',
   templateUrl: './transcripts.component.html',
-  styleUrls: ['./transcripts.component.css']
+  styleUrls: ['./transcripts.component.css'],
+  providers: [AppService]
 })
 export class TranscriptsComponent implements OnInit {
   conversation = null;
@@ -272,7 +275,7 @@ export class TranscriptsComponent implements OnInit {
         { id: 4, body: 'Glad to hear that',speaker:'right'},
       ]
     },];
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, public appService: AppService, public router: Router) {
     iconRegistry.addSvgIconLiteral('download', sanitizer.bypassSecurityTrustHtml(DOWNLOAD_ICON));
     iconRegistry.addSvgIconLiteral('chat', sanitizer.bypassSecurityTrustHtml(CHAT_ICON));
     iconRegistry.addSvgIconLiteral('search', sanitizer.bypassSecurityTrustHtml(SEARCH_ICON));
@@ -280,8 +283,9 @@ export class TranscriptsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.conversation = this.conversations[0]
+    this.conversation = this.conversations[0];
     this.conversations[0].selected = true;
+
   }
   onConversationSelected(uid: string){
     this.conversation = this.conversations.filter((item)=>item.id == uid)[0];

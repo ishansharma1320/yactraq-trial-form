@@ -85,3 +85,13 @@
     /* background-color: #fffafa; */
 }
 
+.active{
+    background-color: #f1f1f1;
+}
+#nav{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-top: 10px;
+        margin-right: 20px;
+}

@@ -3,9 +3,10 @@ import { Component, OnInit,ViewChild,ElementRef, AfterViewInit } from '@angular/
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
-import { AppService } from './form.service';
+import { AppService } from '../app.service';
 import { Plan } from '../models/plans.model';
 import { Language } from '../models/languages.model';
+import { Router } from '@angular/router';
 
 
 
@@ -17,6 +18,7 @@ import { Language } from '../models/languages.model';
 })
 export class FormComponent implements OnInit {
   @ViewChild('fileInput') fileInputVariable: ElementRef;
+  
   formSubmitted: Boolean = false;
   notAuthorised: Boolean;
   message: String;
@@ -29,9 +31,10 @@ export class FormComponent implements OnInit {
     fileSource: new FormControl('', [Validators.required])
     
   });
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppService,public router: Router) { }
 
   ngOnInit() {
+      
       this.appService.getLanguages().subscribe(success=>{
       success.response.map((item)=>{
         // console.log(item);
