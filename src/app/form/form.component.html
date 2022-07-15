@@ -67,12 +67,13 @@
   
   
   <div fxLayout="row" class="upload" fxLayoutAlign="center center" >
-    <input #fileInput
+    <input
+        #fileInput
         id="file" 
         type="file" 
         accept="audio/*"
         (change)="onFileChange($event)"
-        required>
+        multiple>
   </div>
   <div fxLayout="row" class="submit-outer" fxLayoutAlign="center center" >
     <button fxFlex="58.25%" class="submit" fxFlexFill type="submit"> Submit</button>

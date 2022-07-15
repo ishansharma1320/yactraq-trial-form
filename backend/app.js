@@ -54,10 +54,10 @@ const isAuth = (req,res,next) =>{
 // ----------- Multer Config Starts -----------
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");
+    cb(null, path.join(__dirname,'uploads'));
   },
   filename: (req, file, cb) => {
-    cb(null, `${file.originalname}`);
+    cb(null, file.originalname);
   },
 });
 
@@ -128,16 +128,18 @@ app.post('/postForm',isAuth, function (req, res) {
       err.message === "Something Wrong"?res.status(500).json({message: "Service Unavailable"}):res.status(403).json({message: err.message});
       return;
     }
-    // Save to model
+    else{
+    console.log(req.files);
     let filenames = req.files.map(item=>item.filename)
-    Form.create({username: req.body.username,language: req.body.lang,account_id: req.body.account_id, files: filenames,plans: req.body.plans.split(',')})
+    Form.create({username: req.session.userId,language: req.body.lang,account_id: req.body.account_id, files: filenames,plans: req.body.plans.split(',')})
             .then(documents=>{
               res.status(200).json({
                 message: "File Upload Successful",
               })
             })
-          
-          });
+          }          
+    });
+      
 });
 // ----------- external API Ends -------------
 
