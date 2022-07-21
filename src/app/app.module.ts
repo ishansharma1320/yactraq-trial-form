@@ -16,12 +16,14 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatDialogModule} from '@angular/material/dialog';
 import { FormComponent } from './form/form.component';
 import { TranscriptsComponent } from './transcripts/transcripts.component';
 import { ChatSidebarContainerComponent } from './transcripts/chat-sidebar-container/chat-sidebar-container.component';
 import { ChatWindowComponent } from './transcripts/chat-window/chat-window.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { FileComparisonDialogComponent } from './transcripts/file-comparison-dialog/file-comparison-dialog.component';
 
 
 @NgModule({
@@ -32,7 +34,8 @@ import { RegisterComponent } from './register/register.component';
     ChatSidebarContainerComponent,
     ChatWindowComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    FileComparisonDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +48,7 @@ import { RegisterComponent } from './register/register.component';
     MatInputModule,
     MatIconModule,
     MatMenuModule,
+    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
     MatSelectModule,

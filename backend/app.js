@@ -12,6 +12,7 @@ const config = require('./config/development');
 const Languages = require('./models/Languages');
 const Plans = require('./models/Plans');
 const Form = require('./models/Form');
+const ProcessedCall = require('./models/ProcessedCall');
 const filePath = path.join(__dirname, '..','dist','yactraq-transcripts-trial');
 
 const authRouter = require('./controllers/routes/auth');
@@ -119,8 +120,34 @@ app.get('/getLanguage',isAuth, function(req,res){
    })
  });
 
-
-app.post('/postForm',isAuth, function (req, res) {
+app.post('/newCallIdCheck',isAuth,function(req,res){
+  let jsonObj = req.body;
+  let call_ids = req.body.map(item=>item.call_id);
+  ProcessedCall.find({call_id:{$in: call_ids}},{_id:0,call_id:1},(err,docs)=>{
+    if(!err){
+      if(docs.length>0){
+        let dbCallIds = [];
+        docs.forEach(item=>dbCallIds.push(item.call_id));
+        let filteredCallIds = call_ids.filter(item=>{
+          if(dbCallIds.indexOf(item) === -1){
+            return item;
+          }
+          })
+        let filteredJSONObject = jsonObj.filter(item=>{
+          if(filteredCallIds.indexOf(item.call_id)>-1){
+            return item;
+          }
+        })
+        res.status(200).json({success: true,response:filteredJSONObject.length>0?filteredJSONObject:null})
+      }else{
+        res.status(200).json({success: true,response: []})
+      }
+    }else{
+      res.status(500).json({success: false,response: null})
+    }
+  })
+})
+app.post('/newForm',isAuth, function (req, res) {
   upload(req,res,function(err){
     if (err){
       console.log("HERE 1");
@@ -129,17 +156,46 @@ app.post('/postForm',isAuth, function (req, res) {
       return;
     }
     else{
-    console.log(req.files);
+    // console.log(req.files);
     let filenames = req.files.map(item=>item.filename)
-    Form.create({username: req.session.userId,language: req.body.lang,account_id: req.body.account_id, files: filenames,plans: req.body.plans.split(',')})
-            .then(documents=>{
-              res.status(200).json({
-                message: "File Upload Successful",
-              })
-            })
-          }          
+    let documents = [];
+    let manual_transcript = req.body.man_trans != null ? req.body.man_trans: null;
+    let start_duration = req.body.start_time != null ? req.body.start_time: null;
+    let end_duration = req.body.end_time != null ? req.body.end_time: null;
+    let metadata = JSON.parse(req.body.metadata);
+    let newCallIds = metadata.map((item)=>item.call_id);
+    req.files.forEach((file)=>{
+      let name = `${req.body.account_id}_${file.filename.split('.')[0]}_${req.body.lang}`;
+            
+      req.body.plans.split(',').forEach(plan=>{
+        let obj = {call_id: `${name}_${plan}`};
+        if(manual_transcript !== null && start_duration !== null && end_duration !== null){
+          obj.manual_transcript = {text: manual_transcript, start_duration,end_duration}
+        }
+        documents.push(obj);
+      })
     });
+    
+    documents = documents.filter((item)=>{
+      if(newCallIds.indexOf(item.call_id) > -1){
+        return item;
+      }
+    })
+    console.log(documents);
+    if(documents.length>0){
+      ProcessedCall.insertMany(documents,(err,docs)=>{
+        if(!err){
+          res.status(200).json({
+            message: "File Upload Successful",
+          })
+        }
       
+      });
+    }
+    
+    
+    }
+  });
 });
 // ----------- external API Ends -------------
 

@@ -19,7 +19,7 @@
             <mat-label> Account ID
             </mat-label>
             <input type="text" matInput formControlName="account_id" required>
-            <mat-error *ngIf="trialForm.controls['account_id'].touched && trialForm.controls['account_id'].invalid && trialForm.controls['account_id'].errors !== null && trialForm.controls['account_id'].errors['required']">
+            <mat-error *ngIf="trialForm.controls['account_id'].errors?.['required'] || (trialForm.controls['account_id'].touched && trialForm.controls['account_id'].invalid && trialForm.controls['account_id'].errors !== null)">
              <span>This field is mandatory.</span> 
             </mat-error>
           </mat-form-field>
@@ -42,8 +42,8 @@
           {{lang.viewValue}}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="trialForm.controls['lang'].touched && trialForm.controls['lang'].invalid">
-        <span *ngIf="trialForm.controls['lang'].errors !== null && trialForm.controls['lang'].errors['required']">This field is mandatory.</span>
+      <mat-error *ngIf="trialForm.controls['lang'].errors?.['required'] || (trialForm.controls['lang'].touched && trialForm.controls['lang'].invalid)">
+        <span *ngIf="trialForm.controls['lang'].errors['required'] || trialForm.controls['lang'].errors !== null">This field is mandatory.</span>
       </mat-error>
     </mat-form-field>
   
@@ -58,13 +58,41 @@
           {{plan.viewValue}}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="trialForm.controls['plans'].touched && trialForm.controls['plans'].invalid">
-        <span *ngIf="trialForm.controls['plans'].errors !== null && trialForm.controls['plans'].errors['required']">This field is mandatory.</span>
+      <mat-error *ngIf="trialForm.controls['plans'].errors?.['required'] || (trialForm.controls['plans'].touched && trialForm.controls['plans'].invalid)">
+        <span *ngIf="trialForm.controls['plans'].errors !== null || trialForm.controls['plans'].errors['required']">This field is mandatory.</span>
       </mat-error>
     </mat-form-field>
     
   </div>
   
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <mat-form-field fxFlex="58.25%"  appearance="outline">
+      <mat-label> Manual Transcript
+      </mat-label>
+      <textarea matInput formControlName="man_trans" placeholder="Ex. It makes me feel..."></textarea>
+    </mat-form-field>
+    
+  </div>
+  
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+    <mat-form-field fxFlex="28.5%"  appearance="outline">
+      <mat-label> Start Time
+      </mat-label>
+      <input matInput formControlName="start_time" placeholder="HH:MM:SS" [value]="null"/>
+      <mat-error *ngIf="trialForm.controls['start_time'].touched && trialForm.controls['start_time'].invalid && trialForm.controls['start_time'].errors !== null">
+       <span>The required format is HH:MM:SS.</span> 
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field fxFlex="28.5%"  appearance="outline">
+      <mat-label> End Time
+      </mat-label>
+      <input matInput formControlName="end_time" placeholder="HH:MM:SS" [value]="null"/>
+      <mat-error *ngIf="trialForm.controls['end_time'].touched && trialForm.controls['end_time'].invalid && trialForm.controls['end_time'].errors !== null ">
+       <span>The required format is HH:MM:SS.</span> 
+      </mat-error>
+    </mat-form-field>
+    
+  </div>
   
   <div fxLayout="row" class="upload" fxLayoutAlign="center center" >
     <input
@@ -73,8 +101,20 @@
         type="file" 
         accept="audio/*"
         (change)="onFileChange($event)"
-        multiple>
+        multiple
+        required>
+        <div *ngIf="trialForm.controls['fileSource'].invalid">
+          <mat-error>
+            <span>This field is mandatory.</span>
+          </mat-error>
+        </div>
   </div>
+  <div id="error-message" *ngIf="trialForm.errors?.['noMatch']">
+    <mat-error>
+      <span>Start Time and End Time cannot be same</span>
+    </mat-error>
+  </div>
+  
   <div fxLayout="row" class="submit-outer" fxLayoutAlign="center center" >
     <button fxFlex="58.25%" class="submit" fxFlexFill type="submit"> Submit</button>
   </div>

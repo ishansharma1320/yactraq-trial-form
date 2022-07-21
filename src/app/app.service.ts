@@ -17,6 +17,9 @@ export class AppService{
     getLanguages(){
         return this.httpClient.get<{response: [{'_id': String, "value": String, "viewValue": String}]}>(this.SERVER_URL+'getLanguage');
     }
+    getCallIdCheckStatus(body: any){
+        return this.httpClient.post<{'success': Boolean, "response": Array<{fileName: String,call_id: String}>|null}>(this.SERVER_URL+`newCallIdCheck`,body);
+    }
     postRegistrationFormData(data: FormData){
         //API CALL
         return this.httpClient.post<{message: string, target: string}>('/auth/register', data);
@@ -27,6 +30,6 @@ export class AppService{
     }
     postFormData(data: FormData){
         //API CALL
-        return this.httpClient.post<{message: String}>(this.SERVER_URL+'postForm', data);
+        return this.httpClient.post<{message: String}>(this.SERVER_URL+'newForm', data);
     }
 }

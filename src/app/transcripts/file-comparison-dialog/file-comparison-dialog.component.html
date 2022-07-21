@@ -1,0 +1,64 @@
+
+<div mat-dialog-content class="container">
+<div mat-dialog-title class="dialog-header">
+  <h1>Hi</h1>
+  <button mat-button [mat-dialog-close]="true">
+    <mat-icon>close</mat-icon>
+</button>
+</div>
+<div>
+  <form [formGroup]="transcriptForm" (submit)="submit()">
+    <div id="transcript-field">
+      <mat-form-field appearance="fill">
+          <mat-label>Manual Transcript</mat-label>
+          <textarea matInput formControlName="man_trans" placeholder="Ex. It makes me feel..."></textarea>
+          <mat-error *ngIf="transcriptForm.controls['man_trans'].touched && transcriptForm.controls['man_trans'].invalid && transcriptForm.controls['man_trans'].errors !== null && transcriptForm.controls['man_trans'].errors['required']">
+            <span >This field is mandatory.</span>
+           </mat-error>
+
+        </mat-form-field>  
+    </div>
+    <div id="duration-fields">
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>Start Time</mat-label>
+        <input matInput formControlName="start_time" placeholder="HH:MM:SS"/>
+        <mat-error *ngIf="transcriptForm.controls['start_time'].touched && transcriptForm.controls['start_time'].invalid && transcriptForm.controls['start_time'].errors !== null">
+          <span *ngIf="transcriptForm.controls['start_time'].errors['required']">This field is mandatory.</span>
+          <span *ngIf="!transcriptForm.controls['start_time'].errors['required']">The required format is HH:MM:SS.</span>
+        </mat-error>
+
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="fill">
+        <mat-label>End Time</mat-label>
+        <input matInput formControlName="end_time" placeholder="HH:MM:SS"/>
+        <mat-error *ngIf="transcriptForm.controls['end_time'].touched && transcriptForm.controls['end_time'].invalid && transcriptForm.controls['end_time'].errors !== null">
+          <span *ngIf="transcriptForm.controls['end_time'].errors['required']">This field is mandatory.</span>
+          <span *ngIf="!transcriptForm.controls['end_time'].errors['required']">The required format is HH:MM:SS.</span>
+        </mat-error>
+
+      </mat-form-field>
+    </div>
+    </div>
+    <div id="error-message" *ngIf="transcriptForm.errors?.['noMatch']">
+      <mat-error>
+        <span>Start Time and End Time cannot be same</span>
+      </mat-error>
+    </div>
+    
+    <!-- <div>
+      <audio #audio (timeupdate)="onTimeUpdate();" id="sample" src="https://samplelib.com/lib/preview/mp3/sample-15s.mp3" controls preload></audio>
+      <button (click)="playSegment(0.0, 5)">Play1</button>
+    </div> -->
+    <div mat-dialog-actions [align]="'center'">
+      <button mat-button cdkFocusInitial="false" class="submit-button" type="submit">Submit</button>
+      </div>
+    </form>
+    
+</div>
+</div>
+
+
+

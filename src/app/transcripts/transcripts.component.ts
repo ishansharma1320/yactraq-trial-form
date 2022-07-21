@@ -3,6 +3,8 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
 import { AppService } from '../app.service';
 import { Router } from '@angular/router';
+import { FileComparisonDialogComponent } from './file-comparison-dialog/file-comparison-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 const DOWNLOAD_ICON =
   `
@@ -71,6 +73,7 @@ const ADD_ICON = `
 </g>
 </svg>
 `;
+const COMPARE_ICON = `<svg width="32px" height="32px" viewBox="0 0 32 32" id="icon" xmlns="http://www.w3.org/2000/svg"><defs><style>.cls-1{fill:none;}</style></defs><title>compare</title><path d="M28,6H18V4a2,2,0,0,0-2-2H4A2,2,0,0,0,2,4V24a2,2,0,0,0,2,2H14v2a2,2,0,0,0,2,2H28a2,2,0,0,0,2-2V8A2,2,0,0,0,28,6ZM4,15h6.17L7.59,17.59,9,19l5-5L9,9,7.59,10.41,10.17,13H4V4H16V24H4ZM16,28V26a2,2,0,0,0,2-2V8H28v9H21.83l2.58-2.59L23,13l-5,5,5,5,1.41-1.41L21.83,19H28v9Z" transform="translate(0)"/><rect id="_Transparent_Rectangle_" data-name="&lt;Transparent Rectangle&gt;" class="cls-1" width="32" height="32"/></svg>`;
 @Component({
   selector: 'app-transcripts',
   templateUrl: './transcripts.component.html',
@@ -275,13 +278,27 @@ export class TranscriptsComponent implements OnInit {
         { id: 4, body: 'Glad to hear that',speaker:'right'},
       ]
     },];
-  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, public appService: AppService, public router: Router) {
+  constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, public appService: AppService, public router: Router,public dialog: MatDialog) {
     iconRegistry.addSvgIconLiteral('download', sanitizer.bypassSecurityTrustHtml(DOWNLOAD_ICON));
     iconRegistry.addSvgIconLiteral('chat', sanitizer.bypassSecurityTrustHtml(CHAT_ICON));
     iconRegistry.addSvgIconLiteral('search', sanitizer.bypassSecurityTrustHtml(SEARCH_ICON));
     iconRegistry.addSvgIconLiteral('add', sanitizer.bypassSecurityTrustHtml(ADD_ICON));
+    iconRegistry.addSvgIconLiteral('compare', sanitizer.bypassSecurityTrustHtml(COMPARE_ICON));
    }
+   
 
+   openDialog(): void {
+     const dialogRef = this.dialog.open(FileComparisonDialogComponent, {
+       width: '60%',
+       height : 'auto',
+      //  data: {name: 'test', animal: 'test'},
+     });
+ 
+     dialogRef.afterClosed().subscribe(result => {
+       console.log('The dialog was closed');
+       console.log(result)
+     });
+   }
   ngOnInit(): void {
     this.conversation = this.conversations[0];
     this.conversations[0].selected = true;
