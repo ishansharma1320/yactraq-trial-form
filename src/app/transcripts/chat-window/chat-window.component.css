@@ -5,6 +5,21 @@
     flex-direction: column;
     background-color: #f2e8e4;
 }
+@media only screen and (min-width:768px) and (max-width:1500px) {
+    .chatWindowHeader{
+        background-color: #f4f4f4;
+        /* flex-basis: 20%; */
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        padding: 10px;
+        /* z-index:1; */
+    
+    }        
+}
+@media only screen and (min-width: 1500px) {
 .chatWindowHeader{
     background-color: #f4f4f4;
     flex-basis: 20%;
@@ -13,8 +28,10 @@
     justify-content: space-between;
     align-items: center;
     position: relative;
+    /* padding: 10px; */
     /* z-index:1; */
 
+}
 }
 .chatWindowHeaderWER{
     flex-basis: 25%;
