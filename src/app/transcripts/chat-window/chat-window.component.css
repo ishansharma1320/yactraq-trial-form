@@ -66,6 +66,10 @@ flex-basis: 75%;
   td.mat-footer-cell{
     text-align: center;
     font-weight: bold;
+    
+  }
+  mat-error{
+    display: inline;
   }
   /* td.mat-column-star {
     width: 20px;
