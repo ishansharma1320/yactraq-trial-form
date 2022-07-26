@@ -17,6 +17,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
 import { FormComponent } from './form/form.component';
 import { TranscriptsComponent } from './transcripts/transcripts.component';
 import { ChatSidebarContainerComponent } from './transcripts/chat-sidebar-container/chat-sidebar-container.component';
@@ -24,6 +25,9 @@ import { ChatWindowComponent } from './transcripts/chat-window/chat-window.compo
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { FileComparisonDialogComponent } from './transcripts/file-comparison-dialog/file-comparison-dialog.component';
+import { ErrorDialogComponent } from './form/error-dialog/error-dialog.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatDividerModule} from '@angular/material/divider';
 
 
 @NgModule({
@@ -35,7 +39,8 @@ import { FileComparisonDialogComponent } from './transcripts/file-comparison-dia
     ChatWindowComponent,
     LoginComponent,
     RegisterComponent,
-    FileComparisonDialogComponent
+    FileComparisonDialogComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +60,10 @@ import { FileComparisonDialogComponent } from './transcripts/file-comparison-dia
     MatButtonModule,
     HttpClientModule,
     MatAutocompleteModule,
-    FlexLayoutModule
+    MatExpansionModule,
+    FlexLayoutModule,
+    MatTableModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,14 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AppService } from 'src/app/app.service';
+
+
+
+// interface WERElement {
+//   error_type: string;
+//   count: number;
+//   // words: string;
+// }
+
 
 @Component({
   selector: 'app-chat-window',
@@ -7,9 +17,19 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ChatWindowComponent implements OnInit {
   @Input() conversation: any;
-  constructor() { }
+  displayedColumns = [
+    'error_type',
+    'count',
+    'words'
+  ];
+  @Input() dataSource: any;
+  constructor(private appService: AppService) {
+    
+   }
+
 
   ngOnInit(): void {
-  }
+    console.log(this.conversation);
+      }
 
 }

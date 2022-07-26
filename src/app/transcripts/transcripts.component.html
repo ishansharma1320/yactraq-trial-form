@@ -29,6 +29,6 @@
         </div>
     </div>
     <div id="conversationContainer">
-        <app-chat-window [conversation]="conversation" *ngIf="conversation"></app-chat-window>
+        <app-chat-window [conversation]="conversation" [dataSource]="conversation.dataSource || []" *ngIf="conversation"></app-chat-window>
     </div>
 </div>

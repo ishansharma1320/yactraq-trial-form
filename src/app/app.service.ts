@@ -18,7 +18,7 @@ export class AppService{
         return this.httpClient.get<{response: [{'_id': String, "value": String, "viewValue": String}]}>(this.SERVER_URL+'getLanguage');
     }
     getCallIdCheckStatus(body: any){
-        return this.httpClient.post<{'success': Boolean, "response": Array<{fileName: String,call_id: String}>|null}>(this.SERVER_URL+`newCallIdCheck`,body);
+        return this.httpClient.post<{'success': Boolean, 'type':String, "response": Array<{fileName: String,call_id: String}>|null}>(`${this.SERVER_URL}newCallIdCheck`,body);
     }
     postRegistrationFormData(data: FormData){
         //API CALL
@@ -31,5 +31,13 @@ export class AppService{
     postFormData(data: FormData){
         //API CALL
         return this.httpClient.post<{message: String}>(this.SERVER_URL+'newForm', data);
+    }
+    postTranscriptFormData(data: FormData){
+        //API CALL
+        return this.httpClient.post<{message: String}>(this.SERVER_URL+'submitManualTranscript', data);
+    }
+    getConversations(call_id: string){
+        let ep = `transcript/${call_id}`;
+        return this.httpClient.get<{success: boolean, response: any[], wer_data: any}>(this.SERVER_URL+ep);
     }
 }

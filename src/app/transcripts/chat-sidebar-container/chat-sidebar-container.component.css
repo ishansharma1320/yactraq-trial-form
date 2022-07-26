@@ -29,7 +29,7 @@
 #conversationContent{
     flex-grow: 1;
     /* background-color: aliceblue; */
-    
+    overflow: auto;
     display: flex;
     flex-direction: column;
     /* gap:15px; */

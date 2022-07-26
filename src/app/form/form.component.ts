@@ -1,13 +1,14 @@
 import { Component, OnInit,ViewChild,ElementRef, AfterViewInit } from '@angular/core';
 // import {FormControl, Validators} from '@angular/forms';
-import { FormGroup, FormControl, Validators, FormArray, FormBuilder, AbstractControl, ValidationErrors } from '@angular/forms';
+import { UntypedFormGroup, FormControl, Validators, UntypedFormArray, UntypedFormBuilder, AbstractControl, ValidationErrors } from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { AppService } from '../app.service';
 import { Plan } from '../models/plans.model';
 import { Language } from '../models/languages.model';
 import { Router } from '@angular/router';
-
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 
 
 @Component({
@@ -24,36 +25,50 @@ export class FormComponent implements OnInit {
   message: String;
   langList: Language[] = [];
   plansList: Plan[] = [];
-  trialForm: FormGroup;
-  
-  constructor(private appService: AppService,public router: Router, public formBuilder: FormBuilder) { 
+  trialForm: UntypedFormGroup;
+  manualTranscripts = [];
+  invalidTranscripts: {message_body: string, message_title: string, call: string}[] = [];
+  constructor(private appService: AppService,public router: Router, public formBuilder: UntypedFormBuilder, public dialog: MatDialog) { 
     this.trialForm = this.formBuilder.group({
       account_id: ['', Validators.required],
       lang: ['', Validators.required],
       plans:  ['', Validators.required],
-      man_trans: [''],
-      start_time: [null, Validators.pattern(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)],
-      end_time: ['', Validators.pattern(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)],
+      // man_trans: [''],
+      // start_time: [null, Validators.pattern(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)],
+      // end_time: ['', Validators.pattern(/[0-9]{2}:[0-9]{2}:[0-9]{2}/)],
       fileSource: this.formBuilder.array([],Validators.required),
       
-    },{validator: this.differentDurations});
+    },
+    // {validator: this.differentDurations}
+    );
   }
 
-  differentDurations(control: AbstractControl): ValidationErrors | null {
+  // differentDurations(control: AbstractControl): ValidationErrors | null {
  
-    const start = control.get("start_time").value;
-    const end = control.get("end_time").value;
+  //   const start = control.get("start_time").value;
+  //   const end = control.get("end_time").value;
  
  
-    if (start === end && start != null) { return { 'noMatch': true } }
+  //   if (start === end && start != null) { return { 'noMatch': true } }
  
-    return null
+  //   return null
  
+  // }
+
+  openDialog(data: {messages: any,option: string}): void {
+    const dialogRef = this.dialog.open(ErrorDialogComponent,{data});
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this._reset();
+    });
   }
 
-  get fileSource(): FormArray {
+
+
+  get fileSource(): UntypedFormArray {
     console.log(this.trialForm);
-    return this.trialForm.get('fileSource') as FormArray;
+    return this.trialForm.get('fileSource') as UntypedFormArray;
   };
   ngOnInit() {
       
@@ -87,22 +102,55 @@ export class FormComponent implements OnInit {
       let files = event.target.files;
       for(let file of files){
         let reader = new FileReader();
-        console.log(file.size);
+        
         reader.onload = (e: any) => {
           // console.log('e.target.result', e.target.result);
           // console.log(typeof(e.target.result));
-          const blob = new Blob([new Uint8Array(e.target.result)], {
-            type: file.type,
-          });
-          this.fileSource.push(this.createItem({file,blob}));
+          if(file.type.includes('audio')){
+            const blob = new Blob([new Uint8Array(e.target.result)], {
+              type: file.type,
+            });
+            this.fileSource.push(this.createItem({file,blob}));
+          }else if(file.type.includes('text') && file.name.includes('.txt')){
+            let [start,end,text] = e.target.result.split('\n');
+            let obj = {start, end, text,call: file.name.split('.txt')[0],valid: false};
+
+            if(start !== undefined && end !== undefined && text !== undefined){
+              if(new RegExp(/[0-9]{2}:[0-9]{2}:[0-9]{2}/).test(start) && new RegExp(/[0-9]{2}:[0-9]{2}:[0-9]{2}/).test(end)){
+                if(start !== end){
+                  obj.valid = true;
+                }else{
+                  obj.call = file.name;
+                  obj['message_body'] = `${obj.call} have same start and end timestamps.`;
+                  obj['message_title'] = `Same Timestamps`;
+                }  
+              }else{
+                obj.call = file.name;
+                obj['message_body'] = `${obj.call} has improperly formatted start or end timestamps.\n\tFormat:- HH:MM:SS`;
+                obj['message_title'] = `Improper Timestamp format`;
+              }  
+            }else{
+              obj.call = file.name;
+              obj['message_body'] = `${obj.call} has invalid file format. Format:-\n\t<Start_Timestamp> (HH:MM:SS)\n\t<End_Timestamp> (HH:MM:SS)\n\t<paragraph>`;
+              obj['message_title'] = `Invalid File Format`;
+            }
+            if(!this.manualTranscripts.some(item=>item.call === obj.call)){
+              this.manualTranscripts.push(obj);
+            }
+          }
+          
         };
+        if(file.type.includes('audio')){
         reader.readAsArrayBuffer(file);
+        }else if(file.type.includes('text') && file.name.includes('.txt')){
+          reader.readAsText(file);
+        }
       }
       
     }
   }
 
-  createItem(data: any): FormGroup {
+  createItem(data: any): UntypedFormGroup {
     console.log(this.trialForm);
     return this.formBuilder.group(data);
   }
@@ -113,11 +161,28 @@ export class FormComponent implements OnInit {
     });
     this.fileInputVariable.nativeElement.value="";
     this.fileSource.reset();
+    this.manualTranscripts = [];
+    this.invalidTranscripts = [];
+
   }
   private _createFormData(): any{
     const formData = new FormData();
+    const validTranscripts = [];
+    
+
     const metadata = {};
-    console.log(this.fileSource);
+    
+    for(let item of this.manualTranscripts){
+      if(item.valid === true){
+        validTranscripts.push(item);
+      }else{
+          let newItem = {call: item.call, message_body: item.message_body, message_title: item.message_title};
+          this.invalidTranscripts.push(newItem);
+      } 
+    }
+    console.log(this.manualTranscripts);
+    console.log('valid',validTranscripts);
+    formData.append('manual_transcripts',JSON.stringify(validTranscripts));
     Object.keys(this.trialForm.controls).forEach(key => {
         if(key === 'fileSource'){
           this.trialForm.get(key).value.forEach((item: any)=>{
@@ -182,35 +247,45 @@ submit(): void {
       })
       
     })
+    for(const pair of formData.entries()) {
+      console.log(`${pair[0]}, ${pair[1]}`);
+    }
     //API CALL STARTS
     
     // console.log('blob: ',files[0]);
     // console.log('name: ',files[0].name);
     this.appService.getCallIdCheckStatus(checkBody).subscribe((success)=>{
       if(success.success === true){
-        let meta = success.response;
-        if(meta !== null){
-          let fileNames = [...new Set(success.response.map(item=>item.fileName))];
+        let type = success.type;
+        if(type === 'some_call_ids_exists' || type === 'all_new_call_ids'){
+          let meta = success.response;
+          let fileNames = [...new Set(meta.map(item=>item.fileName))];
           let files = formData.getAll('fileSource');  
-        formData.append('metadata',JSON.stringify(meta));
-        let newFiles = files.filter(file=>{
-          if(fileNames.indexOf(file.name)>-1){
-            return file;
+          formData.append('metadata',JSON.stringify(meta));
+          let newFiles = files.filter(file=>{
+            if(fileNames.indexOf(file.name)>-1){
+              return file;
+            }
+          });
+          if(newFiles.length > 0){
+            formData.delete('fileSource');
+            newFiles.forEach((file)=>{
+              formData.append('fileSource',file,file.name);
+              });
           }
-        });
-        if(newFiles.length > 0){
-          formData.delete('fileSource');
-          newFiles.forEach((file)=>{
-            formData.append('fileSource',file,file.name);
-            });
-        }
-        this._innerSubmit(formData);
+          this._innerSubmit(formData);
         }
         else{
-          console.log('Files Exists already');
+          this.openDialog({messages: null,option: 'all_call_ids_exists'});
+          return;
+        }
+        if(this.invalidTranscripts.length>0){
+          let error_messages = this.invalidTranscripts;
+          this.openDialog({messages:error_messages, option: 'other_errors'});
+        }else{
+          this._reset();
         }
         
-        this._reset();
       }
     },failure=>{
       console.log(failure);

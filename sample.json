@@ -1,0 +1,615 @@
+{
+  "total_words": 268,
+  "word_error_rate": 0.3062730627306273,
+  "sentence_error_rate": 1,
+  "transcriptions": [
+    {
+      "audio": "1",
+      "text": "good afternoon. thank you for calling muve dune speaking how may i assist you oh good afternoon dune my name is phillip moore and i am ringing you about reference pr 3120457301 which is trying to verify my address email etc. all right bear with me may i know whom i am speaking to phillip moore  - moore just to reconfirm the reference number was 457301 that's right 457301 457301 and can i reconfirm if this address is 1419 galway can you sorry confirm what yes sir just bear with me if i can reconfirm if this is 1419 nightingale way the address no no this is six warmington road bear with me phillip one moment i'm just trying to see if i can give these details one more time. and it's spelled warmington for me please  if i get so much trouble no worries. yes that will be w o no no i have not understanding the thing is towards the purchase of 14 nightingale way catterall preston pr31tq and i'm gifting some money to my my granddaughter to enable her to purchase it £25,000. but you need to to check on that on me. i'm not a money launderer. so part of that is to confirm my address, yes my name and send you a photo yes so just reconfirm phillip i got the details right here. so this is for melanie barry and paul barry. yeah. yes. and so you were requested to verify your address on this, so. yes. and you just want to know how you can do that. is that is. it? ",
+      "prediction": "Good afternoon. Thank you for calling me down, speaking to you. Good afternoon to you. Your name is Philip moore and I'm ringing you out. Reference PR 3120457301 which is trying to verify my address, email, etc.. All right. Bear with me. A man whom I'm speaking to. Phillip moore. What's more, just to reconfirm the reference number was 457301. That's right. 457301. 457301. And can I reconfirm if this address is 1419? So confirm what? Yes. Just bear with me if I can reconfirm if this is 1419 Nightingale Way. The address. No, no. This is six Warmington Road. Bear with me, Phillip. On my end. I'm just trying to see if I can get this one more time. And it's spelled WARMINGTON for me. Please, if I get so much trouble. No worries. Yes. That'll be w o. I have no understanding. The thing is towards the purchase of 14 Nightingale Way, Catterall Breast and P3 one T2 and I'm gifting some money to my my granddaughter to enable her to purchase it £25,000. But you need to do checks on that on me. I'm not a money launderer. So part of that is to confirm my address, my name. And. Send you a photo. Yes. So just to reconfirm Felipe, I got the details right here. So this is for Melanie Barry and Paul Barry. Yeah. Yes. And so you were requested to verify your address on this, so. Yes. And you just want to know how you can do that. Is that is. It?",
+      "word_error_rate": 0.3062730627306273,
+      "changes": [
+        {
+          "type": "substitution",
+          "phrase": "muve",
+          "with": "me"
+        },
+        {
+          "type": "substitution",
+          "phrase": "dune",
+          "with": "down,"
+        },
+        {
+          "type": "substitution",
+          "phrase": "how",
+          "with": "to"
+        },
+        {
+          "type": "deletion",
+          "phrase": "may i assist"
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "deletion",
+          "phrase": "oh"
+        },
+        {
+          "type": "substitution",
+          "phrase": "dune",
+          "with": "to"
+        },
+        {
+          "type": "substitution",
+          "phrase": "my",
+          "with": "you."
+        },
+        {
+          "type": "addition",
+          "phrase": "your"
+        },
+        {
+          "type": "substitution",
+          "phrase": "phillip",
+          "with": "philip"
+        },
+        {
+          "type": "addition",
+          "phrase": "'m"
+        },
+        {
+          "type": "deletion",
+          "phrase": "am"
+        },
+        {
+          "type": "substitution",
+          "phrase": "about",
+          "with": "out."
+        },
+        {
+          "type": "addition",
+          "phrase": ","
+        },
+        {
+          "type": "addition",
+          "phrase": ","
+        },
+        {
+          "type": "substitution",
+          "phrase": ".",
+          "with": ".."
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "substitution",
+          "phrase": "may",
+          "with": "a"
+        },
+        {
+          "type": "substitution",
+          "phrase": "i",
+          "with": "man"
+        },
+        {
+          "type": "deletion",
+          "phrase": "know"
+        },
+        {
+          "type": "addition",
+          "phrase": "'m"
+        },
+        {
+          "type": "deletion",
+          "phrase": "am"
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "substitution",
+          "phrase": "-",
+          "with": "what's"
+        },
+        {
+          "type": "substitution",
+          "phrase": "moore",
+          "with": "more,"
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "?"
+        },
+        {
+          "type": "substitution",
+          "phrase": "galway",
+          "with": "so"
+        },
+        {
+          "type": "deletion",
+          "phrase": "can you sorry"
+        },
+        {
+          "type": "addition",
+          "phrase": "?"
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "deletion",
+          "phrase": "sir"
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": ","
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": ","
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "substitution",
+          "phrase": "one",
+          "with": "on"
+        },
+        {
+          "type": "substitution",
+          "phrase": "moment",
+          "with": "my"
+        },
+        {
+          "type": "addition",
+          "phrase": "end."
+        },
+        {
+          "type": "substitution",
+          "phrase": "give",
+          "with": "get"
+        },
+        {
+          "type": "substitution",
+          "phrase": "these",
+          "with": "this"
+        },
+        {
+          "type": "deletion",
+          "phrase": "details"
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": ","
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "'ll"
+        },
+        {
+          "type": "deletion",
+          "phrase": "will"
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "deletion",
+          "phrase": "no no"
+        },
+        {
+          "type": "substitution",
+          "phrase": "not",
+          "with": "no"
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": ","
+        },
+        {
+          "type": "substitution",
+          "phrase": "preston",
+          "with": "breast"
+        },
+        {
+          "type": "substitution",
+          "phrase": "pr31tq",
+          "with": "and"
+        },
+        {
+          "type": "addition",
+          "phrase": "p3 one t2"
+        },
+        {
+          "type": "substitution",
+          "phrase": "to",
+          "with": "do"
+        },
+        {
+          "type": "substitution",
+          "phrase": "check",
+          "with": "checks"
+        },
+        {
+          "type": "deletion",
+          "phrase": "yes"
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "."
+        },
+        {
+          "type": "addition",
+          "phrase": "to"
+        },
+        {
+          "type": "substitution",
+          "phrase": "phillip",
+          "with": "felipe,"
+        }
+      ]
+    }
+  ],
+  "reports": {
+    "addition_distribution": [
+      {
+        "phrase": ".",
+        "count": 24
+      },
+      {
+        "phrase": ",",
+        "count": 6
+      },
+      {
+        "phrase": "'m",
+        "count": 2
+      },
+      {
+        "phrase": "?",
+        "count": 2
+      },
+      {
+        "phrase": "your",
+        "count": 1
+      },
+      {
+        "phrase": "end.",
+        "count": 1
+      },
+      {
+        "phrase": "'ll",
+        "count": 1
+      },
+      {
+        "phrase": "p3 one t2",
+        "count": 1
+      },
+      {
+        "phrase": "to",
+        "count": 1
+      }
+    ],
+    "deletion_distribution": [
+      {
+        "phrase": "am",
+        "count": 2
+      },
+      {
+        "phrase": "may i assist",
+        "count": 1
+      },
+      {
+        "phrase": "oh",
+        "count": 1
+      },
+      {
+        "phrase": "know",
+        "count": 1
+      },
+      {
+        "phrase": "can you sorry",
+        "count": 1
+      },
+      {
+        "phrase": "sir",
+        "count": 1
+      },
+      {
+        "phrase": "details",
+        "count": 1
+      },
+      {
+        "phrase": "will",
+        "count": 1
+      },
+      {
+        "phrase": "no no",
+        "count": 1
+      },
+      {
+        "phrase": "yes",
+        "count": 1
+      }
+    ],
+    "substitution_distribution": [
+      {
+        "phrase": "dune",
+        "count": 2
+      },
+      {
+        "phrase": "phillip",
+        "count": 2
+      },
+      {
+        "phrase": "muve",
+        "count": 1
+      },
+      {
+        "phrase": "how",
+        "count": 1
+      },
+      {
+        "phrase": "my",
+        "count": 1
+      },
+      {
+        "phrase": "about",
+        "count": 1
+      },
+      {
+        "phrase": ".",
+        "count": 1
+      },
+      {
+        "phrase": "may",
+        "count": 1
+      },
+      {
+        "phrase": "i",
+        "count": 1
+      },
+      {
+        "phrase": "-",
+        "count": 1
+      },
+      {
+        "phrase": "moore",
+        "count": 1
+      },
+      {
+        "phrase": "galway",
+        "count": 1
+      },
+      {
+        "phrase": "one",
+        "count": 1
+      },
+      {
+        "phrase": "moment",
+        "count": 1
+      },
+      {
+        "phrase": "give",
+        "count": 1
+      },
+      {
+        "phrase": "these",
+        "count": 1
+      },
+      {
+        "phrase": "not",
+        "count": 1
+      },
+      {
+        "phrase": "preston",
+        "count": 1
+      },
+      {
+        "phrase": "pr31tq",
+        "count": 1
+      },
+      {
+        "phrase": "to",
+        "count": 1
+      },
+      {
+        "phrase": "check",
+        "count": 1
+      }
+    ],
+    "pairwise_phrase_substitutions": [
+      {
+        "phrase": "muve",
+        "with": "me",
+        "count": 1
+      },
+      {
+        "phrase": "dune",
+        "with": "down,",
+        "count": 1
+      },
+      {
+        "phrase": "how",
+        "with": "to",
+        "count": 1
+      },
+      {
+        "phrase": "dune",
+        "with": "to",
+        "count": 1
+      },
+      {
+        "phrase": "my",
+        "with": "you.",
+        "count": 1
+      },
+      {
+        "phrase": "phillip",
+        "with": "philip",
+        "count": 1
+      },
+      {
+        "phrase": "about",
+        "with": "out.",
+        "count": 1
+      },
+      {
+        "phrase": ".",
+        "with": "..",
+        "count": 1
+      },
+      {
+        "phrase": "may",
+        "with": "a",
+        "count": 1
+      },
+      {
+        "phrase": "i",
+        "with": "man",
+        "count": 1
+      },
+      {
+        "phrase": "-",
+        "with": "what's",
+        "count": 1
+      },
+      {
+        "phrase": "moore",
+        "with": "more,",
+        "count": 1
+      },
+      {
+        "phrase": "galway",
+        "with": "so",
+        "count": 1
+      },
+      {
+        "phrase": "one",
+        "with": "on",
+        "count": 1
+      },
+      {
+        "phrase": "moment",
+        "with": "my",
+        "count": 1
+      },
+      {
+        "phrase": "give",
+        "with": "get",
+        "count": 1
+      },
+      {
+        "phrase": "these",
+        "with": "this",
+        "count": 1
+      },
+      {
+        "phrase": "not",
+        "with": "no",
+        "count": 1
+      },
+      {
+        "phrase": "preston",
+        "with": "breast",
+        "count": 1
+      },
+      {
+        "phrase": "pr31tq",
+        "with": "and",
+        "count": 1
+      },
+      {
+        "phrase": "to",
+        "with": "do",
+        "count": 1
+      },
+      {
+        "phrase": "check",
+        "with": "checks",
+        "count": 1
+      },
+      {
+        "phrase": "phillip",
+        "with": "felipe,",
+        "count": 1
+      }
+    ]
+  }
+}

@@ -1,18 +1,17 @@
 
-<div mat-dialog-content class="container">
 <div mat-dialog-title class="dialog-header">
-  <h1>Hi</h1>
+  <h1>Add Manual Transcript</h1>
   <button mat-button [mat-dialog-close]="true">
     <mat-icon>close</mat-icon>
 </button>
 </div>
-<div>
+<mat-dialog-content class="mat-typography">
   <form [formGroup]="transcriptForm" (submit)="submit()">
     <div id="transcript-field">
       <mat-form-field appearance="fill">
           <mat-label>Manual Transcript</mat-label>
           <textarea matInput formControlName="man_trans" placeholder="Ex. It makes me feel..."></textarea>
-          <mat-error *ngIf="transcriptForm.controls['man_trans'].touched && transcriptForm.controls['man_trans'].invalid && transcriptForm.controls['man_trans'].errors !== null && transcriptForm.controls['man_trans'].errors['required']">
+          <mat-error *ngIf="transcriptForm.controls['man_trans'].errors?.['required'] || (transcriptForm.controls['man_trans'].touched && transcriptForm.controls['man_trans'].invalid)">
             <span >This field is mandatory.</span>
            </mat-error>
 
@@ -23,7 +22,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Start Time</mat-label>
         <input matInput formControlName="start_time" placeholder="HH:MM:SS"/>
-        <mat-error *ngIf="transcriptForm.controls['start_time'].touched && transcriptForm.controls['start_time'].invalid && transcriptForm.controls['start_time'].errors !== null">
+        <mat-error *ngIf="transcriptForm.controls['start_time'].errors?.['required'] || (transcriptForm.controls['start_time'].touched && transcriptForm.controls['start_time'].invalid)">
           <span *ngIf="transcriptForm.controls['start_time'].errors['required']">This field is mandatory.</span>
           <span *ngIf="!transcriptForm.controls['start_time'].errors['required']">The required format is HH:MM:SS.</span>
         </mat-error>
@@ -34,7 +33,8 @@
       <mat-form-field appearance="fill">
         <mat-label>End Time</mat-label>
         <input matInput formControlName="end_time" placeholder="HH:MM:SS"/>
-        <mat-error *ngIf="transcriptForm.controls['end_time'].touched && transcriptForm.controls['end_time'].invalid && transcriptForm.controls['end_time'].errors !== null">
+        
+        <mat-error *ngIf="transcriptForm.controls['end_time'].errors?.['required'] || (transcriptForm.controls['end_time'].touched && transcriptForm.controls['end_time'].invalid)">
           <span *ngIf="transcriptForm.controls['end_time'].errors['required']">This field is mandatory.</span>
           <span *ngIf="!transcriptForm.controls['end_time'].errors['required']">The required format is HH:MM:SS.</span>
         </mat-error>
@@ -53,12 +53,10 @@
       <button (click)="playSegment(0.0, 5)">Play1</button>
     </div> -->
     <div mat-dialog-actions [align]="'center'">
-      <button mat-button cdkFocusInitial="false" class="submit-button" type="submit">Submit</button>
+      <button mat-button class="submit-button" type="submit">Submit</button>
       </div>
     </form>
-    
-</div>
-</div>
+</mat-dialog-content>
 
 
 

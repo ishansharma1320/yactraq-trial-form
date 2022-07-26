@@ -1,0 +1,15 @@
+
+.dialog-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-basis: 10%;
+}
+.dialog-header h4{
+    color: red;
+}
+
+.all_call_ids_exists{
+    position: relative; margin: 10px; width: 300px; text-align: center;
+}

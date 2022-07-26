@@ -65,7 +65,7 @@
     
   </div>
   
-  <div fxLayout="row" fxLayoutAlign="center center">
+  <!-- <div fxLayout="row" fxLayoutAlign="center center">
     <mat-form-field fxFlex="58.25%"  appearance="outline">
       <mat-label> Manual Transcript
       </mat-label>
@@ -93,13 +93,13 @@
     </mat-form-field>
     
   </div>
-  
+   -->
   <div fxLayout="row" class="upload" fxLayoutAlign="center center" >
     <input
         #fileInput
         id="file" 
         type="file" 
-        accept="audio/*"
+        accept="audio/*,text/plain"
         (change)="onFileChange($event)"
         multiple
         required>

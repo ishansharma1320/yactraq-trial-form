@@ -1,5 +1,5 @@
 import { Component, OnInit,Output,EventEmitter} from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { AppService } from '../app.service';
 
 import { Router } from '@angular/router';
@@ -13,9 +13,9 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   message: string;
   link: string;
-  loginForm = new FormGroup({
-    username: new FormControl('', Validators.required),
-    password: new FormControl('',Validators.required), 
+  loginForm = new UntypedFormGroup({
+    username: new UntypedFormControl('', Validators.required),
+    password: new UntypedFormControl('',Validators.required), 
   });
   // @Output() isLoggedIn: EventEmitter<any> = new EventEmitter();
   constructor(private appService: AppService, public router: Router) { }

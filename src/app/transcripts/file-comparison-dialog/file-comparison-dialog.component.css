@@ -1,5 +1,6 @@
 ::ng-deep .mat-dialog-content{
-    overflow: none;
+    display: inherit;
+    max-height: fit-content;
 }
 /* #wrapper{
     display: flex;
@@ -12,7 +13,7 @@ form {
     gap: 5%;
     padding-left: 25px;
     padding-right: 25px;
-    overflow: auto;
+    /* overflow: auto; */
     
 }
 .dialog-header{

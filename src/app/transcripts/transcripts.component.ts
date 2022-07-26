@@ -240,7 +240,7 @@ export class TranscriptsComponent implements OnInit {
       ]
     },
     {
-      id: '1',
+      id: '13',
       call_id: '6123456',
       account_id: 'Hotstar',
       engine: 'Basic',
@@ -253,7 +253,7 @@ export class TranscriptsComponent implements OnInit {
       ],
     },
     {
-      id: '2',
+      id: '14',
       call_id: '6123456',
       account_id: 'Hotstar',
       engine: 'Basic Plus',
@@ -266,7 +266,7 @@ export class TranscriptsComponent implements OnInit {
       ],
     },
     {
-      id: '3', //Object ID
+      id: '15', //Object ID
       call_id: '6123456',
       account_id: 'Hotstar',
       engine: 'Advanced',
@@ -278,19 +278,43 @@ export class TranscriptsComponent implements OnInit {
         { id: 4, body: 'Glad to hear that',speaker:'right'},
       ]
     },];
+  notEmptyPost = true;
+  notscrolly = true;
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, public appService: AppService, public router: Router,public dialog: MatDialog) {
     iconRegistry.addSvgIconLiteral('download', sanitizer.bypassSecurityTrustHtml(DOWNLOAD_ICON));
     iconRegistry.addSvgIconLiteral('chat', sanitizer.bypassSecurityTrustHtml(CHAT_ICON));
     iconRegistry.addSvgIconLiteral('search', sanitizer.bypassSecurityTrustHtml(SEARCH_ICON));
     iconRegistry.addSvgIconLiteral('add', sanitizer.bypassSecurityTrustHtml(ADD_ICON));
     iconRegistry.addSvgIconLiteral('compare', sanitizer.bypassSecurityTrustHtml(COMPARE_ICON));
+    this.appService.getConversations('1234').subscribe((success)=>{
+      let response = success.response;
+      let wer_data = success.wer_data;
+      let transcript = [];
+      response.forEach((el,index)=>{
+        transcript.push({id: index+1,body: el.utterance, speaker: el.speaker})
+      })
+  
+    this.conversations = this.conversations.map((el,index)=>{
+        el.transcript = transcript;
+        if(index%2 === 0){
+          el['wer_data'] = wer_data;
+          el['dataSource'] = [
+            {error_type:'addition',count:wer_data.addition.count ,words: wer_data.addition.error_phrases.join('   ,   ')},
+            {error_type:'substitution',count:wer_data.substitution.count,words: wer_data.substitution.error_phrases.join('    ,   ')},
+            {error_type:'deletion',count:wer_data.deletion.count,words: wer_data.deletion.error_phrases.join('    ,   ')}
+          ];      
+        }
+        return el;
+      })
+    })
+    console.log(this.conversations[0].transcript.length);
    }
    
 
    openDialog(): void {
      const dialogRef = this.dialog.open(FileComparisonDialogComponent, {
        width: '60%',
-       height : 'auto',
+      //  minHeight: '40vh'
       //  data: {name: 'test', animal: 'test'},
      });
  
@@ -304,6 +328,7 @@ export class TranscriptsComponent implements OnInit {
     this.conversations[0].selected = true;
 
   }
+  
   onConversationSelected(uid: string){
     this.conversation = this.conversations.filter((item)=>item.id == uid)[0];
     this.conversations = this.conversations.map((item)=>{

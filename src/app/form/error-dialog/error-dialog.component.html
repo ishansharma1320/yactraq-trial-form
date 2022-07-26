@@ -1,0 +1,37 @@
+<div mat-dialog-title class="dialog-header">
+    <h2>Errors</h2>
+    <button mat-button [mat-dialog-close]="true">
+      <mat-icon>close</mat-icon>
+  </button>
+  </div>
+<mat-dialog-content>
+    <ng-container *ngIf="data.option === 'all_call_ids_exists'">
+        <div class="all_call_ids_exists">Files Exist Already.</div>
+    </ng-container>
+
+    <ng-container *ngIf="data.option === 'other_errors'">
+        The form has been submitted and the files are being processed, but during submission, these errors were encountered
+        <br/><br/>
+        <mat-error class="error-count"> <h4>{{data.messages.length}} Errors:</h4> </mat-error>
+        <!-- <ul *ngFor="let message of data.messages">
+            <mat-error><pre>{{message}}</pre></mat-error>
+        </ul> -->
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="false" *ngFor="let error of data.messages">
+    
+                <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <mat-error><strong>{{error.call}}</strong></mat-error>
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{error.message_title}}
+                </mat-panel-description>
+                </mat-expansion-panel-header>
+                <pre>{{error.message_body}}</pre>
+            </mat-expansion-panel>
+    
+    </mat-accordion>
+    
+    </ng-container>
+    
+</mat-dialog-content>

@@ -3,15 +3,22 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    background-color: #f2e8e4;
 }
-#chatWindowHeader{
+.chatWindowHeader{
     background-color: #f4f4f4;
-    flex-basis: 63.63px;
+    flex-basis: 20%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    /* z-index:1; */
 
+}
+.chatWindowHeaderWER{
+    flex-basis: 25%;
+    margin-bottom: 20px;
 }
 
 #callId{
@@ -25,14 +32,46 @@
     margin-right: 10px;
 }
 #chatWindowBody{
-    flex-grow: 1;
-    background-color: #f2e8e4;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
     padding: 20px 50px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
+#chatWindowWER{
+flex-basis: 75%;
+ padding-left: 10px;
+ padding-right: 10px;
+ position: relative;
+ margin-bottom: 20px;
+}
+.example-container {
+    /* height: 400px; */
+    /* width: 550px; */
+    max-width: 100%;
+    overflow: auto;
+  }
+  
+  table {
+    width: 100%;
+  }
+  th.mat-header-cell, td.mat-cell{
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    width: 200px;
+    padding-left: 24px;
+    text-align: center;
+  }
+  th.mat-header-cell{
+    font-size: 16px;
+  }
+  td.mat-footer-cell{
+    text-align: center;
+    font-weight: bold;
+  }
+  /* td.mat-column-star {
+    width: 20px;
+    padding-right: 8px;
+  } */
+
 ::ng-deep .mat-typography p{
     margin:0px;
 }

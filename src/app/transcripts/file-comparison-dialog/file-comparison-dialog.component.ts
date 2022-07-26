@@ -1,6 +1,7 @@
 import { Component, OnInit,Inject, ViewChild, ElementRef} from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup,ValidationErrors,Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup,ValidationErrors,Validators } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { AppService } from 'src/app/app.service';
 // export interface DialogData {
 //   animal: string;
 //   name: string;
@@ -9,16 +10,18 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 @Component({
   selector: 'app-file-comparison-dialog',
   templateUrl: './file-comparison-dialog.component.html',
-  styleUrls: ['./file-comparison-dialog.component.css']
+  styleUrls: ['./file-comparison-dialog.component.css'],
+  providers: [AppService]
 })
 export class FileComparisonDialogComponent implements OnInit {
   // @ViewChild('audio') audioVar: ElementRef;
   // segmentEnd = null;
-  transcriptForm: FormGroup;
+  transcriptForm: UntypedFormGroup;
   success = false;
   constructor(
     public dialogRef: MatDialogRef<FileComparisonDialogComponent>,
-    public formBuilder: FormBuilder
+    public formBuilder: UntypedFormBuilder,
+    private appService: AppService
   ) {
     this.transcriptForm = this.formBuilder.group({
       man_trans: ['',Validators.required],
@@ -79,6 +82,7 @@ export class FileComparisonDialogComponent implements OnInit {
       this.success = true;
       
       const formData = this._createFormData();
+      formData.append('call_id','tststst_test_ENGLISH_PL_1');
       //API CALL STARTS
       console.log(formData);
       formData.forEach((val,key)=>{
@@ -86,16 +90,12 @@ export class FileComparisonDialogComponent implements OnInit {
       })
       // this.dialogCloseButton.nativeElement.click();
       this.onNoClick(this.success);
-      // this.appService.postFormData(formData).subscribe((success)=>{
-      //   this.formSubmitted = true;
-        
-      // },(failure)=>{
-      //   this.formSubmitted = false;
-      //   if(failure.status === 403){
-      //     this.notAuthorised = true;
-      //     this.message = failure.error.message;
-      //   }
-      // });
+      this.appService.postTranscriptFormData(formData).subscribe((success)=>{
+        this.onNoClick(this.success);
+      },(failure)=>{
+        // this.formSubmitted = false;
+        console.log('Error');
+      });
       
       
       this._reset();

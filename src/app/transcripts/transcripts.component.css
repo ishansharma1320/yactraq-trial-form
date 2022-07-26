@@ -83,7 +83,8 @@
     overflow:auto;
 }
 #conversationContainer{
-    flex-basis: 100%;
+    flex-grow: 1;
+    /* overflow:auto; */
     /* background-color: #fffafa; */
 }
 
