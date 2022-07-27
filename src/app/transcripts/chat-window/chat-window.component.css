@@ -97,7 +97,7 @@ flex-basis: 75%;
     margin:0px;
 }
 
-#chatWindowContent{
+.chatWindowContent{
     margin-top: 10px;
     display: flex;
     /* align-items: flex-start; */
@@ -107,7 +107,19 @@ flex-basis: 75%;
 .chat {
     border-radius: 5px;
     padding: 10px;
-    
+    display: flex;
+    flex-direction: column;
+    min-width: 7%;
+    max-width: 65%;
+    border-radius: 7px;
+}
+.first{
+    position: relative;
+    margin-top: 10%;
+ }
+.startTime{
+    font-size: x-small;
+    align-self: end;
 }
 .chat-left{
     /* align-items: flex-start; */

@@ -17,7 +17,7 @@
               <ng-container matColumnDef="count">
                 <th mat-header-cell *matHeaderCellDef> Count </th>
                 <td mat-cell *matCellDef="let element"> {{element.count}} </td>
-                <td mat-footer-cell *matFooterCellDef> <span>From <mat-error>00:00:00</mat-error> to <mat-error>00:00:11</mat-error></span></td>
+                <td mat-footer-cell *matFooterCellDef> <span>From <mat-error>{{conversation.wer_data.start}}</mat-error> to <mat-error>{{conversation.wer_data.end}}</mat-error></span></td>
               </ng-container>
           
               <!-- Words Column -->
@@ -34,11 +34,13 @@
     </div>
     <mat-divider *ngIf="conversation.wer_data"></mat-divider>
     <div id="chatWindowBody" >
-        <div id="chatWindowContent"  *ngFor="let message of conversation.transcript" [ngClass]="message.speaker === 'left'?'chat-outer-left':'chat-outer-right'">
-            <div  class="chat" [ngClass]="message.speaker === 'left'?'chat-left':'chat-right'">
-                {{message.body}}
+        <div class="chatWindowContent"  *ngFor="let message of conversation.transcript; let index = index;" [ngClass]="index === 0 && conversation.wer_data?message.speaker === 'left'?'first chat-outer-left':'first chat-outer-right':message.speaker === 'left'?'chat-outer-left':'chat-outer-right'"> 
+          <div  class="chat" [ngClass]="message.speaker === 'left'?'chat-left':'chat-right'" >
+                <div class="body">{{message.body}} </div>
+                <div class="startTime">{{message.startTime}} </div>
+                <!-- <span style="text-align: end; font-size: 8px;">{{message.startTime}}</span> -->
             </div>
-            
+           
         </div>
     </div>
 </div>

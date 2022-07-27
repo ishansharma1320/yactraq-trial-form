@@ -90,6 +90,15 @@ const calculateWER = async (call_id,generated,manual)=>{
   return final_result;
 }
 
+function convertSeconds(seconds) {
+  var convert = function(x) { return (x < 10) ? "0"+x : x; }
+  let hour = convert(parseInt(seconds / (60*60)));
+  hour = hour === '00'? '': `${hour}:`
+  return hour +
+         convert(parseInt(seconds / 60 % 60)) + ":" +
+         convert(seconds % 60)
+}
+
 // ----------- Multer Config Starts -----------
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -277,6 +286,7 @@ app.get('/transcript/:id',isAuth,function(req,res){
       // check if manual transcript exist for that call
       // if yes, and werdata does not exist, then calculate,
       // else return the data or handle else
+      // return start and end time also, applying 00 formatting
       let werData = await calculateWER('1','','');
       console.log(werData);
       result = result.filter((el)=>{
@@ -287,11 +297,12 @@ app.get('/transcript/:id',isAuth,function(req,res){
           }else{
             el.speaker = 'right';
           }
+          el.startTime = convertSeconds(Math.floor(el.startTime));
           return el;
         }
       });
 
-      res.status(200).json({success: true,response: result,wer_data: werData})
+      res.status(200).json({success: true,response: result,wer_data: {start:'00:00',end:'00:11',...werData}})
     }else{
       console.log(err);
       res.status(200).json({success: false})

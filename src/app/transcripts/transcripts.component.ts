@@ -291,7 +291,7 @@ export class TranscriptsComponent implements OnInit {
       let wer_data = success.wer_data;
       let transcript = [];
       response.forEach((el,index)=>{
-        transcript.push({id: index+1,body: el.utterance, speaker: el.speaker})
+        transcript.push({id: index+1,body: el.utterance, speaker: el.speaker, startTime: el.startTime})
       })
   
     this.conversations = this.conversations.map((el,index)=>{
